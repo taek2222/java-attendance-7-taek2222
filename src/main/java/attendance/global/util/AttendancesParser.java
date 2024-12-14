@@ -1,6 +1,8 @@
 package attendance.global.util;
 
 import attendance.domain.AttendanceType;
+import attendance.domain.Attendances;
+import attendance.domain.Crew;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -9,8 +11,8 @@ public class AttendancesParser {
 
     private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm";
 
-    public static void parseAttendances(List<String> attendances) {
-        List<String> subList = attendances.subList(1, attendances.size());
+    public static void parseAndUpdateAttendances(Attendances attendances, List<String> FileAttendances) {
+        List<String> subList = FileAttendances.subList(1, FileAttendances.size()); // 첫 리스트 삭제
 
         for (String input : subList) {
             String[] nameAndDateTime = input.split(",");
@@ -19,8 +21,10 @@ public class AttendancesParser {
             String dateTime = nameAndDateTime[1];
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
             LocalDateTime parseDateTime = LocalDateTime.parse(dateTime, dateTimeFormatter);
+            AttendanceType attendance = AttendanceType.evaluateAttendance(parseDateTime);
 
-            String attendance = AttendanceType.evaluateAttendance(parseDateTime);
+            Crew crew = new Crew(nickname, attendance);
+            attendances.updateAttendances(crew, parseDateTime);
         }
     }
 }

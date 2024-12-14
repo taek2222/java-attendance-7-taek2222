@@ -16,17 +16,17 @@ public enum AttendanceType {
         this.threshold = threshold;
     }
 
-    public static String evaluateAttendance (LocalDateTime dateTime) {
+    public static AttendanceType evaluateAttendance (LocalDateTime dateTime) {
         int tardyTime = DayOfTheWeek.calculateTardyTime(dateTime);
 
         if (ABSENCE.threshold < tardyTime) {
-            return ABSENCE.type;
+            return ABSENCE;
         }
 
         if (TARDINESS.threshold < tardyTime) {
-            return TARDINESS.type;
+            return TARDINESS;
         }
 
-        return ATTENDANCE.type;
+        return ATTENDANCE;
     }
 }
