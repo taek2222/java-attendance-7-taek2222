@@ -7,6 +7,7 @@ import attendance.domain.Crew;
 import attendance.domain.CrewNickname;
 import attendance.domain.DayOfTheWeek;
 import attendance.domain.dto.AttendanceResponse;
+import attendance.domain.dto.AttendancesResponse;
 import attendance.global.util.AttendancesParser;
 import attendance.global.util.CrewParser;
 import attendance.global.util.DateTimeParser;
@@ -33,40 +34,60 @@ public class AttendanceController {
         updateFileAttendances(attendances);
 
         outputView.printChoiceFunction();
-        String function = inputView.readChoiceFunction();
+        String function;
 
-        if (function.equals("1")) {
-            LocalDateTime now = DateTimes.now();
-            DayOfTheWeek.findByDate(now);
-            String nickname = inputView.readNickname();
-            CrewNickname.findByName(nickname);
-            String startTime = inputView.readSchoolStartTime();
+        do {
+            function = inputView.readChoiceFunction();
 
-            LocalDateTime dateTime = DateTimeParser.parseDateTime(LocalDate.from(now), startTime);
-            Crew crew = CrewParser.parseCrew(nickname, dateTime);
-            attendances.updateNewAttendance(crew, dateTime);
-            Attendance attendance = attendances.findAttendanceByDate(dateTime);
-            outputView.printCrewAttendanceStatus(attendance.createResponseByCrew(crew));
-        }
+            if (function.equals("1")) {
+                functionAttendance(attendances);
+            }
 
-        if (function.equals("2")) {
-            String nickname = inputView.readNickname();
-            int day = inputView.readDay();
-            String time = inputView.readChangeTime();
+            if (function.equals("2")) {
+                functionModify(attendances);
+            }
 
-            LocalDate date = LocalDate.of(2024, 12, day);
-            LocalDateTime dateTime = DateTimeParser.parseDateTime(date, time);
+            if (function.equals("3")) {
+                String nickname = inputView.readNickname();
+                Crew crew = CrewParser.parseCrew(nickname);
 
-            Crew crew = CrewParser.parseCrew(nickname, dateTime);
-            Attendance attendance = attendances.findAttendanceByDate(dateTime);
+                AttendancesResponse response = attendances.createResponse(crew);
+                outputView.printCrewInfos(response);
+            }
+        } while (!function.equals("Q"));
+    }
 
-            Crew oldCrew = attendance.findCrewByCrew(crew);
-            AttendanceResponse oldCrewResponse = attendance.createResponseByCrew(oldCrew);
-            attendance.updateCrew(crew);
+    private void functionAttendance(final Attendances attendances) {
+        LocalDateTime now = DateTimes.now();
+        DayOfTheWeek.findByDate(now);
+        String nickname = inputView.readNickname();
+        CrewNickname.findByName(nickname);
+        String startTime = inputView.readSchoolStartTime();
 
-            AttendanceResponse newCrewResponse = attendance.createResponseByCrew(crew);
-            outputView.printCrewModified(oldCrewResponse, newCrewResponse);
-        }
+        LocalDateTime dateTime = DateTimeParser.parseDateTime(LocalDate.from(now), startTime);
+        Crew crew = CrewParser.parseCrew(nickname, dateTime);
+        attendances.updateNewAttendance(crew, dateTime);
+        Attendance attendance = attendances.findAttendanceByDate(dateTime);
+        outputView.printCrewAttendanceStatus(attendance.createResponseByCrew(crew));
+    }
+
+    private void functionModify(final Attendances attendances) {
+        String nickname = inputView.readNickname();
+        int day = inputView.readDay();
+        String time = inputView.readChangeTime();
+
+        LocalDate date = LocalDate.of(2024, 12, day);
+        LocalDateTime dateTime = DateTimeParser.parseDateTime(date, time);
+
+        Crew crew = CrewParser.parseCrew(nickname, dateTime);
+        Attendance attendance = attendances.findAttendanceByDate(dateTime);
+
+        Crew oldCrew = attendance.findCrewByCrew(crew);
+        AttendanceResponse oldCrewResponse = attendance.createResponseByCrew(oldCrew);
+        attendance.updateCrew(crew);
+
+        AttendanceResponse newCrewResponse = attendance.createResponseByCrew(crew);
+        outputView.printCrewModified(oldCrewResponse, newCrewResponse);
     }
 
     private void updateFileAttendances(final Attendances attendances) {

@@ -3,18 +3,31 @@ package attendance.view;
 import static attendance.global.constant.MessageConstant.NEW_LINE;
 
 import attendance.domain.dto.AttendanceResponse;
+import attendance.domain.dto.AttendancesResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
+import java.util.List;
 import java.util.Locale;
 
 public class OutputView {
+
+    public void printCrewInfos(AttendancesResponse response) {
+        List<AttendanceResponse> responses = response.attendanceResponses();
+
+        for (AttendanceResponse attendanceResponse : responses) {
+            this.printCrewInfo(
+                    attendanceResponse,
+                    attendanceResponse.dateTime()
+            );
+        }
+    }
     
     public void printCrewModified(AttendanceResponse oldCrew, AttendanceResponse newCrew) {
         printCrewInfo(oldCrew, oldCrew.dateTime());
         System.out.printf(" -> %s %s 수정 완료!",
-                newCrew.crewResponses().getFirst().time(),
-                newCrew.crewResponses().getFirst().attendance());
+                newCrew.crewResponses().time(),
+                newCrew.crewResponses().attendance());
     }
 
     public void printCrewAttendanceStatus(AttendanceResponse response) {
@@ -29,8 +42,8 @@ public class OutputView {
                 dateTime.getMonthValue(),
                 dateTime.getDayOfMonth(),
                 dateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREA),
-                response.crewResponses().getFirst().time(),
-                response.crewResponses().getFirst().attendance()
+                response.crewResponses().time(),
+                response.crewResponses().attendance()
                 );
     }
 
@@ -40,9 +53,5 @@ public class OutputView {
                 now.getMonthValue(),
                 now.getDayOfMonth(),
                 now.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREA));
-    }
-
-    public void printErrorMessage(String message) {
-        System.out.println(message);
     }
 }

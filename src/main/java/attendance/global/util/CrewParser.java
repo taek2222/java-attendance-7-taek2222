@@ -12,4 +12,8 @@ public class CrewParser {
         String name = CrewNickname.findByName(nickname);
         return new Crew(name, attendance, dateTime.toLocalTime());
     }
+
+    public static Crew parseCrew(String nickname) {
+        return parseCrew(nickname, LocalDateTime.of(2024, 12, 3, 10, 0, 0));
+    }
 }

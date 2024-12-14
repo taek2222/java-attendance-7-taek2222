@@ -30,10 +30,8 @@ public class Attendance {
 
     public AttendanceResponse createResponseByCrew(Crew crew) {
         Crew findCrew = findCrewByCrew(crew);
-        List<CrewResponse> response = List.of(findCrew.createResponse());
-
         return new AttendanceResponse(
-                response,
+                findCrew.createResponse(),
                 date
         );
     }

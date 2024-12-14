@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import attendance.domain.dto.AttendanceResponse;
+import attendance.domain.dto.AttendancesResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +23,19 @@ public class Attendances {
         if (attendance.isSameCrew(crew))
             throw new IllegalArgumentException(); // todo : 이미 출석한 학생
         updateAttendances(crew, dateTime);
+    }
+
+    public AttendancesResponse createResponse(Crew crew) {
+        List<Attendance> list = attendances.stream()
+                .filter(attendance -> attendance.isSameCrew(crew))
+                .toList();
+
+        List<AttendanceResponse> attendanceResponses = list.stream()
+                .map(attendance -> attendance.createResponseByCrew(crew))
+                .toList();
+        return new AttendancesResponse(
+                attendanceResponses
+        );
     }
 
     public Attendance findAttendanceByDate(final LocalDateTime dateTime) {
