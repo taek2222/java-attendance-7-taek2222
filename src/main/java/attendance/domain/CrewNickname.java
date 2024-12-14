@@ -1,5 +1,8 @@
 package attendance.domain;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,16 +20,17 @@ public enum CrewNickname {
         this.nickname = nickname;
     }
 
-    public CrewNickname findByName(String name) {
-        return Arrays.stream(values())
+    public static String findByName(String name) {
+        CrewNickname crewNickname = Arrays.stream(values())
                 .filter(crew -> crew.nickname.equals(name))
                 .findFirst()
-                .orElseThrow(); // todo : 찾지 못한 에러
+                .orElseThrow();// todo : 찾지 못한 에러
+        return crewNickname.nickname;
     }
 
     public static List<Crew> generateCrewDefault() {
         return Arrays.stream(values())
-                .map(crew-> new Crew(crew.nickname, AttendanceType.ABSENCE))
+                .map(crew-> new Crew(crew.nickname, AttendanceType.ABSENCE, LocalTime.of(0, 0, 0)))
                 .toList();
     }
 }

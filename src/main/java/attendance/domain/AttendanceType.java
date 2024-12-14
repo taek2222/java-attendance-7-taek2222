@@ -3,9 +3,9 @@ package attendance.domain;
 import java.time.LocalDateTime;
 
 public enum AttendanceType {
-    TARDINESS("지각", 5),
-    ABSENCE("결석", 30),
-    ATTENDANCE("출석", 0)
+    TARDINESS("(지각)", 5),
+    ABSENCE("(결석)", 30),
+    ATTENDANCE("(출석)", 0)
     ;
 
     private final String type;
@@ -28,5 +28,9 @@ public enum AttendanceType {
         }
 
         return ATTENDANCE;
+    }
+
+    public String getType() {
+        return type;
     }
 }

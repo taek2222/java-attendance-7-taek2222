@@ -27,7 +27,7 @@ public enum DayOfTheWeek {
         DayOfTheWeek dayOfTheWeek = findByDate(dateTime.toLocalDate()); // 요일 탐색
         int hour = dateTime.getHour();
 
-        if (hour <= 8 || hour == 23) {
+        if (hour < 8 || hour == 23) {
             throw new IllegalArgumentException(); // todo 등교 이후 시간 에러
         }
 

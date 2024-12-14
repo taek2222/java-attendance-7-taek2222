@@ -23,7 +23,7 @@ public class AttendancesParser {
             LocalDateTime parseDateTime = LocalDateTime.parse(dateTime, dateTimeFormatter);
             AttendanceType attendance = AttendanceType.evaluateAttendance(parseDateTime);
 
-            Crew crew = new Crew(nickname, attendance);
+            Crew crew = new Crew(nickname, attendance, parseDateTime.toLocalTime());
             attendances.updateAttendances(crew, parseDateTime);
         }
     }

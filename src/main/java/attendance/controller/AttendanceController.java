@@ -3,12 +3,16 @@ package attendance.controller;
 
 import attendance.domain.Attendance;
 import attendance.domain.Attendances;
+import attendance.domain.Crew;
 import attendance.domain.CrewNickname;
 import attendance.global.util.AttendancesParser;
+import attendance.global.util.CrewParser;
+import attendance.global.util.DateTimeParser;
 import attendance.global.util.FileUtil;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +31,19 @@ public class AttendanceController {
         updateFileAttendances(attendances);
 
         outputView.printChoiceFunction();
-        inputView.readChoiceFunction();
+        String function = inputView.readChoiceFunction();
+
+        if (function.equals("1")) {
+            String nickname = inputView.readNickname();
+            String startTime = inputView.readSchoolStartTime();
+            LocalDateTime now = DateTimes.now().minusDays(1);
+
+            LocalDateTime dateTime = DateTimeParser.parseCrew(LocalDate.from(now), startTime);
+            Crew crew = CrewParser.parseCrew(nickname, dateTime);
+            attendances.updateNewAttendance(crew, dateTime);
+            Attendance attendance = attendances.findAttendanceByDate(dateTime);
+            outputView.printCrewAttendanceStatus(attendance.createResponseByCrew(crew));
+        }
     }
 
     private void updateFileAttendances(final Attendances attendances) {
