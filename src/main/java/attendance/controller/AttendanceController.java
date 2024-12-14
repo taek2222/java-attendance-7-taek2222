@@ -27,6 +27,7 @@ public class AttendanceController {
         updateFileAttendances(attendances);
 
         outputView.printChoiceFunction();
+        inputView.readChoiceFunction();
     }
 
     private void updateFileAttendances(final Attendances attendances) {
