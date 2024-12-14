@@ -38,7 +38,7 @@ public class Attendance {
         );
     }
 
-    private Crew findCrewByCrew(final Crew findCrew) {
+    public Crew findCrewByCrew(final Crew findCrew) {
         return crews.stream()
                 .filter(crew -> crew.equals(findCrew))
                 .findFirst()

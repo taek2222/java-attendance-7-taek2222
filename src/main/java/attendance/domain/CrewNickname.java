@@ -1,8 +1,8 @@
 package attendance.domain;
 
-import java.time.LocalDate;
+import static attendance.global.constant.ErrorMessage.INVALID_NAME;
+
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public enum CrewNickname {
         CrewNickname crewNickname = Arrays.stream(values())
                 .filter(crew -> crew.nickname.equals(name))
                 .findFirst()
-                .orElseThrow();// todo : 찾지 못한 에러
+                .orElseThrow(()-> new IllegalArgumentException(INVALID_NAME.get()));
         return crewNickname.nickname;
     }
 

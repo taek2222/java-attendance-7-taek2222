@@ -1,6 +1,6 @@
 package attendance.domain;
 
-import java.time.LocalDate;
+import attendance.global.constant.ErrorMessage;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -23,8 +23,7 @@ public enum DayOfTheWeek {
     }
 
     public static int calculateTardyTime(LocalDateTime dateTime) {
-        validateChristmasDay(dateTime.getDayOfMonth()); // 크리스마스 검사
-        DayOfTheWeek dayOfTheWeek = findByDate(dateTime.toLocalDate()); // 요일 탐색
+        DayOfTheWeek dayOfTheWeek = findByDate(dateTime); // 요일 탐색
         int hour = dateTime.getHour();
 
         if (hour < 8 || hour == 23) {
@@ -42,17 +41,24 @@ public enum DayOfTheWeek {
         return Integer.MIN_VALUE;
     }
 
-    private static DayOfTheWeek findByDate(LocalDate date) {
-        int value = date.getDayOfWeek().getValue();
+    public static DayOfTheWeek findByDate(LocalDateTime dateTime) {
+        validateChristmasDay(dateTime); // 크리스마스 검사
+        int value = dateTime.getDayOfWeek().getValue();
         return Arrays.stream(values())
                 .filter(dayOfTheWeek -> dayOfTheWeek.dateOfWeek == value)
                 .findFirst()
-                .orElseThrow();// todo : 등교일 아닌 에러
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_SCHOOL_ATTENDANCE_DATE.get(
+                        dateTime.getMonthValue(),
+                        dateTime.getDayOfMonth()
+                )));
     }
 
-    private static void validateChristmasDay(int date) {
-        if (date == 25) {
-            throw new IllegalArgumentException(); // todo : 등교일 아닌 에러
+    private static void validateChristmasDay(LocalDateTime dateTime) {
+        if (dateTime.getDayOfMonth() == 25) {
+            throw new IllegalArgumentException(ErrorMessage.NOT_SCHOOL_ATTENDANCE_DATE.get(
+                    dateTime.getMonthValue(),
+                    dateTime.getDayOfMonth()
+            ));
         }
     }
 }
