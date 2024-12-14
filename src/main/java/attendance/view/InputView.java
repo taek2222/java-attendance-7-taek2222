@@ -1,11 +1,25 @@
 package attendance.view;
 
+import attendance.global.validation.CommonValidator;
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
 
 public class InputView {
 
     private static final List<String> FUNCTION = List.of("1", "2", "3", "4", "Q");
+
+    public int readDay() {
+        System.out.println("수정하려는 날짜(일)를 입력해 주세요.");
+
+        String input = Console.readLine();
+        CommonValidator.validateIsNumeric(input);
+        return Integer.parseInt(input);
+    }
+
+    public String readChangeTime() {
+        System.out.println("언제로 변경하겠습니까?");
+        return Console.readLine();
+    }
 
     public String readSchoolStartTime() {
         System.out.println("등교 시간을 입력해 주세요.");
