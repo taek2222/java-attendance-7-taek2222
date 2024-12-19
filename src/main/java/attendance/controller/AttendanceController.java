@@ -14,6 +14,6 @@ public class AttendanceController {
 
     public void run() {
         outputView.printDateAndFunctionSelection();
-        inputView.readFunctionSelection();
+        String function = inputView.readFunctionSelection();
     }
 }
