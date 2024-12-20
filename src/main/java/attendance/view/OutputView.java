@@ -4,17 +4,46 @@ import static attendance.global.constant.MessageConstant.NEW_LINE;
 import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_INFO;
 import static attendance.global.constant.MessageConstant.OUTPUT_DATE_AND_FUNCTION_SELECTION;
 import static attendance.global.constant.MessageConstant.OUTPUT_MODIFIED_ATTENDANCE;
+import static attendance.global.constant.MessageConstant.OUTPUT_RESULT;
+import static attendance.global.constant.MessageConstant.OUTPUT_WEEDING;
 import static java.time.format.TextStyle.FULL;
 import static java.util.Locale.KOREA;
 
 import attendance.domain.dto.AttendanceResponse;
 import attendance.domain.dto.ModifiedResponse;
+import attendance.domain.dto.RecordResponse;
 import attendance.domain.dto.RegisteredResponse;
+import attendance.domain.dto.ResultResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class OutputView {
     
+    public void printRecordAttendance(RecordResponse response) {
+        List<AttendanceResponse> attendances = response.attendances();
+        attendances.forEach(this::printAttendanceInfo);
+
+        printResult(response.result());
+        printWeeding(response.result());
+    }
+
+    private void printWeeding(ResultResponse response) {
+        System.out.println(OUTPUT_WEEDING.get(response.weeding()));
+    }
+
+    private void printResult(ResultResponse response) {
+        System.out.printf(NEW_LINE.get());
+        System.out.println(OUTPUT_RESULT.get(
+                response.attendance(),
+                response.perception(),
+                response.absence()
+        ));
+        
+        System.out.printf(NEW_LINE.get());
+        System.out.println();
+    }
+
     public void printModifiedAttendance(ModifiedResponse response) {
         System.out.printf(NEW_LINE.get());
         printAttendanceInfo(response.before());
@@ -50,9 +79,5 @@ public class OutputView {
                 now.getDayOfWeek().getDisplayName(FULL, KOREA)
                 )
         );
-    }
-
-    public void printErrorMessage(String message) {
-        System.out.println(message);
     }
 }
