@@ -19,7 +19,8 @@ class ClassScheduleTest {
     })
     void 교육_시간이_아닌_경우_예외가_발생한다(LocalTime time) {
         // given
-        LocalDateTime dateTime = LocalDateTime.now().with(time);
+        LocalDate date = LocalDate.of(2024, 12, 20);
+        LocalDateTime dateTime = LocalDateTime.of(date, time);
 
         // when & then
         assertThatThrownBy(() -> ClassSchedule.calculateTimeBetween(dateTime))
