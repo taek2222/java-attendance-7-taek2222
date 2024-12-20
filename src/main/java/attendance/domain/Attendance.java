@@ -31,6 +31,10 @@ public class Attendance {
         return dateTime.toLocalDate().isEqual(date);
     }
 
+    public boolean isSameStatus(AttendanceStatus status) {
+        return this.status.equals(status);
+    }
+
     public AttendanceResponse createResponse() {
         return new AttendanceResponse(
                 dateTime,
