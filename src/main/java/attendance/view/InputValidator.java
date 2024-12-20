@@ -13,4 +13,12 @@ public class InputValidator {
             throw new IllegalArgumentException(INVALID_INPUT.get());
         }
     }
+
+    public static void validateIsNumeric(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException();
+        }
+    }
 }
