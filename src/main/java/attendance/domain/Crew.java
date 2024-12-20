@@ -16,18 +16,19 @@ public class Crew {
 
     private final String nickname;
     private final List<Attendance> attendances;
+    private Result result;
 
     public Crew(final String nickname) {
         this.nickname = nickname;
         this.attendances = new ArrayList<>();
         generateDefaultAttendances();
+        this.result = new Result(attendances);
     }
 
     public RegisteredResponse registerAttendance(LocalDateTime dateTime) {
         Attendance attendance = findAttendanceByDate(dateTime.toLocalDate());
         validationAlreadyAttendance(attendance);
-        attendance.updateDateTime(dateTime);
-
+        updateDateTime(dateTime, attendance);
         return new RegisteredResponse(
                 attendance.createResponse()
         );
@@ -37,11 +38,21 @@ public class Crew {
         Attendance oldAttendance = findAttendanceByDate(dateTime.toLocalDate());
         AttendanceResponse oldAttendanceResponse = oldAttendance.createResponse();
 
-        Attendance newAttendance = oldAttendance.updateDateTime(dateTime);
+        Attendance newAttendance = updateDateTime(dateTime, oldAttendance);
         return new ModifiedResponse(
                 oldAttendanceResponse,
                 newAttendance.createResponse()
         );
+    }
+
+    private Attendance updateDateTime(final LocalDateTime dateTime, final Attendance attendance) {
+        Attendance updated = attendance.updateDateTime(dateTime);
+        updateResult();
+        return updated;
+    }
+
+    private void updateResult() {
+        this.result = new Result(attendances);
     }
 
     private Attendance findAttendanceByDate(final LocalDate date) {
