@@ -1,8 +1,10 @@
 package attendance.service;
 
+import static attendance.global.constant.ErrorMessage.CAMPUS_OPERATING_TIME;
 import static attendance.global.constant.ErrorMessage.INVALID_TIME_INPUT;
 import static attendance.global.constant.ErrorMessage.NOT_FOUND_NICKNAME;
 
+import attendance.domain.CampusTime;
 import attendance.domain.Crew;
 import attendance.domain.Crews;
 import attendance.view.InputView;
@@ -30,6 +32,7 @@ public class AttendanceService {
 
             try {
                 LocalTime time = LocalTime.parse(input);
+                validateTime(time);
             } catch (DateTimeException e) {
                 throw new IllegalArgumentException(INVALID_TIME_INPUT.get());
             }
@@ -37,7 +40,13 @@ public class AttendanceService {
         }
     }
 
-    private static void validateCrew(final Crew crew) {
+    private void validateTime(final LocalTime time) {
+        if (!CampusTime.isCampusOperateTime(time)){
+            throw new IllegalArgumentException(CAMPUS_OPERATING_TIME.get());
+        }
+    }
+
+    private void validateCrew(final Crew crew) {
         if (crew == null) {
             throw new IllegalArgumentException(NOT_FOUND_NICKNAME.get());
         }

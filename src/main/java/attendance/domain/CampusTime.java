@@ -14,6 +14,6 @@ public enum CampusTime {
     }
 
     public static boolean isCampusOperateTime(LocalTime time) {
-        return OPEN.time.isAfter(time) && CLOSE.time.isBefore(time);
+        return !OPEN.time.isAfter(time) && !CLOSE.time.isBefore(time);
     }
 }
