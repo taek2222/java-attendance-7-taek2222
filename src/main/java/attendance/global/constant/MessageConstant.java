@@ -3,7 +3,7 @@ package attendance.global.constant;
 public enum MessageConstant {
     // Output
     OUTPUT_DATE_AND_FUNCTION_SELECTION("오늘은 %d월 %d일 %s입니다. 기능을 선택해 주세요."),
-    OUTPUT_ATTENDANCE_INFO("%s월 %s일 %s %s (%s) "),
+    OUTPUT_ATTENDANCE_INFO("%d월 %02d일 %s %s (%s) "),
     OUTPUT_MODIFIED_ATTENDANCE("-> %s (%s) 수정 완료!"),
 
     // Input
