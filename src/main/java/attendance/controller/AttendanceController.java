@@ -1,22 +1,24 @@
 package attendance.controller;
 
-import attendance.global.util.FileUtil;
+import attendance.domain.Crews;
+import attendance.service.InitService;
 import attendance.view.InputView;
 import attendance.view.OutputView;
-import java.util.List;
 
 public class AttendanceController {
+
     private final InputView inputView;
     private final OutputView outputView;
+    private final InitService initService;
 
-    public AttendanceController(InputView inputView, OutputView outputView) {
+    public AttendanceController(InputView inputView, OutputView outputView, final InitService initService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.initService = initService;
     }
 
     public void run() {
-        List<String> readAttendances = FileUtil.readFile("attendances.csv");
-
+        Crews crews = initService.initializeCrewsFromFile();
         String function = readFunctionSelection();
     }
 
