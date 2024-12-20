@@ -12,7 +12,8 @@ public class FileUtil {
 
     public static List<String> readFile(String fileName) {
         BufferedReader fileReader = openFileReader(fileName);
-        return parseLines(fileReader);
+        List<String> parsedLines = parseLines(fileReader);
+        return parsedLines.subList(1, parsedLines.size());
     }
 
     private static BufferedReader openFileReader(String fileName) {
