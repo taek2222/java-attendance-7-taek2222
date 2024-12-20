@@ -34,11 +34,15 @@ public class AttendanceService {
         if (function.equals(MODIFY_FUNCTION)) {
             processModify(crews);
         }
+
+        if (function.equals("3")) {
+            Crew crew = getCrew(crews);
+        }
     }
 
     private void processRegister(final Crews crews) {
         validateSchoolDay(DateTimes.now().toLocalDate()); // 등교 휴일 검사
-        Crew crew = getCrewForRegister(crews);
+        Crew crew = getCrew(crews);
         registerCrewAttendance(crew);
     }
 
@@ -49,8 +53,8 @@ public class AttendanceService {
         modifyCrewAttendance(crew, dateTime);
     }
 
-    private Crew getCrewForRegister(final Crews crews) {
-        String nickname = inputView.readRegisterCrewNickname();
+    private Crew getCrew(final Crews crews) {
+        String nickname = inputView.readCrewNickname();
         return crews.getCrewByNickname(nickname);
     }
 

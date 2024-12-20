@@ -34,7 +34,7 @@ public class InputView {
         return Console.readLine();
     }
 
-    public String readRegisterCrewNickname() {
+    public String readCrewNickname() {
         System.out.println("닉네임을 입력해 주세요.");
         return Console.readLine();
     }
