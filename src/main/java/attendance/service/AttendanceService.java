@@ -5,6 +5,7 @@ import static attendance.global.constant.ErrorMessage.NOT_SCHOOL_DAY;
 import static java.time.format.TextStyle.FULL;
 import static java.util.Locale.KOREA;
 
+import attendance.domain.Attendance;
 import attendance.domain.Crew;
 import attendance.domain.Crews;
 import attendance.domain.Holiday;
@@ -39,7 +40,8 @@ public class AttendanceService {
 
             LocalDateTime dateTime = now.with(time);
 
-            crew.registerAttendance(dateTime);
+            Attendance attendance = crew.registerAttendance(dateTime);
+            outputView.printAttendanceInfo(attendance.createResponse());
         }
     }
 

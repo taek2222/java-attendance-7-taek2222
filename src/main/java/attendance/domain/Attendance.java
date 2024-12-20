@@ -2,6 +2,7 @@ package attendance.domain;
 
 import static attendance.domain.AttendanceStatus.ABSENCE;
 
+import attendance.domain.dto.AttendanceResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,5 +28,12 @@ public class Attendance {
 
     public boolean isSameDate(LocalDate date) {
         return dateTime.toLocalDate().isEqual(date);
+    }
+
+    public AttendanceResponse createResponse() {
+        return new AttendanceResponse(
+                dateTime,
+                status.getStatus()
+        );
     }
 }
