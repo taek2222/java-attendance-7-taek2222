@@ -14,4 +14,9 @@ public class InputView {
         validateFunctionSelection(input);
         return input;
     }
+
+    public String readAttendanceNickname() {
+        System.out.println("닉네임을 입력해 주세요.");
+        return Console.readLine();
+    }
 }
