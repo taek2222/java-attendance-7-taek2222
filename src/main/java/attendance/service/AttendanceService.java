@@ -1,23 +1,22 @@
 package attendance.service;
 
-import static attendance.global.constant.ErrorMessage.NOT_FOUND_NICKNAME;
-import static attendance.global.constant.ErrorMessage.NOT_SCHOOL_DAY;
-import static java.time.format.TextStyle.FULL;
-import static java.util.Locale.KOREA;
+import static attendance.global.validation.AttendanceValidator.validateCrew;
+import static attendance.global.validation.AttendanceValidator.validationSchoolDay;
 
 import attendance.domain.Attendance;
 import attendance.domain.Crew;
 import attendance.domain.Crews;
-import attendance.domain.Holiday;
 import attendance.global.util.TimeParser;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class AttendanceService {
 
+    private static final String CHECK_FUNCTION = "1";
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -27,37 +26,33 @@ public class AttendanceService {
     }
 
     public void processAttendance(String function, Crews crews) {
-        if (function.equals("1")) {
-            LocalDateTime now = DateTimes.now();
-            validationSchoolDay(now);
-
-            String nickname = inputView.readAttendanceNickname();
-            Crew crew = crews.findCrewByNickname(nickname);
-            validateCrew(crew);
-
-            String input = inputView.readAttendanceTime();
-            LocalTime time = TimeParser.parseTime(input);
-
-            LocalDateTime dateTime = now.with(time);
-
-            Attendance attendance = crew.registerAttendance(dateTime);
-            outputView.printAttendanceInfo(attendance.createResponse());
+        if (function.equals(CHECK_FUNCTION)) {
+            processAttendanceCheck(crews);
         }
     }
 
-    private void validationSchoolDay(final LocalDateTime dateTime) {
-        if (Holiday.isHoliday(dateTime)) {
-            throw new IllegalArgumentException(NOT_SCHOOL_DAY.get(
-                    dateTime.getMonthValue(),
-                    dateTime.getDayOfMonth(),
-                    dateTime.getDayOfWeek().getDisplayName(FULL, KOREA)
-            ));
-        }
+    private void processAttendanceCheck(final Crews crews) {
+        LocalDateTime now = DateTimes.now();
+        validationSchoolDay(now);
+
+        String nickname = inputView.readAttendanceCrewNickname();
+        Crew crew = getCrewByNickname(crews, nickname);
+
+        String input = inputView.readAttendanceTime();
+        LocalDateTime dateTime = parseDateTime(now.toLocalDate(), input);
+
+        Attendance attendance = crew.registerAttendance(dateTime);
+        outputView.printAttendanceInfo(attendance.createResponse());
     }
 
-    private void validateCrew(final Crew crew) {
-        if (crew == null) {
-            throw new IllegalArgumentException(NOT_FOUND_NICKNAME.get());
-        }
+    private LocalDateTime parseDateTime(final LocalDate date, final String inputTime) {
+        LocalTime time = TimeParser.parseTime(inputTime);
+        return LocalDateTime.of(date, time);
+    }
+
+    private Crew getCrewByNickname(final Crews crews, final String nickname) {
+        Crew crew = crews.findCrewByNickname(nickname);
+        validateCrew(crew);
+        return crew;
     }
 }
