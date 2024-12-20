@@ -5,6 +5,7 @@ public enum MessageConstant {
     OUTPUT_DATE_AND_FUNCTION_SELECTION("오늘은 %d월 %d일 %s입니다. 기능을 선택해 주세요."),
     OUTPUT_ATTENDANCE_INFO("%d월 %02d일 %s %s (%s) "),
     OUTPUT_MODIFIED_ATTENDANCE("-> %s (%s) 수정 완료!"),
+    OUTPUT_RECORD_ATTENDANCE("이번 달 %s의 출석 기록입니다."),
     OUTPUT_RESULT("""
                 출석: %d회
                 지각: %d회

@@ -4,6 +4,7 @@ import static attendance.global.constant.MessageConstant.NEW_LINE;
 import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_INFO;
 import static attendance.global.constant.MessageConstant.OUTPUT_DATE_AND_FUNCTION_SELECTION;
 import static attendance.global.constant.MessageConstant.OUTPUT_MODIFIED_ATTENDANCE;
+import static attendance.global.constant.MessageConstant.OUTPUT_RECORD_ATTENDANCE;
 import static attendance.global.constant.MessageConstant.OUTPUT_RESULT;
 import static attendance.global.constant.MessageConstant.OUTPUT_WEEDING;
 import static java.time.format.TextStyle.FULL;
@@ -16,13 +17,20 @@ import attendance.domain.dto.RegisteredResponse;
 import attendance.domain.dto.ResultResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class OutputView {
     
     public void printRecordAttendance(RecordResponse response) {
+        System.out.printf(NEW_LINE.get());
+        System.out.println(OUTPUT_RECORD_ATTENDANCE.get(response.nickname()));
+
         List<AttendanceResponse> attendances = response.attendances();
-        attendances.forEach(this::printAttendanceInfo);
+        attendances.forEach(attendance -> {
+            this.printAttendanceInfo(attendance);
+            System.out.printf(NEW_LINE.get());
+        });
 
         printResult(response.result());
         printWeeding(response.result());
@@ -39,9 +47,6 @@ public class OutputView {
                 response.perception(),
                 response.absence()
         ));
-        
-        System.out.printf(NEW_LINE.get());
-        System.out.println();
     }
 
     public void printModifiedAttendance(ModifiedResponse response) {
@@ -66,9 +71,16 @@ public class OutputView {
                 dateTime.getMonthValue(),
                 dateTime.getDayOfMonth(),
                 dateTime.getDayOfWeek().getDisplayName(FULL, KOREA),
-                dateTime.toLocalTime(),
+                printTime(dateTime.toLocalTime()),
                 response.attendanceStatus()
         ));
+    }
+
+    private String printTime(final LocalTime time) {
+        if (time.equals(LocalTime.MIN)) {
+            return "--:--";
+        }
+        return time.toString();
     }
 
     public void printDateAndFunctionSelection() {

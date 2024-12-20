@@ -4,6 +4,7 @@ import static attendance.global.constant.ErrorMessage.ALREADY_ATTENDANCE;
 
 import attendance.domain.dto.AttendanceResponse;
 import attendance.domain.dto.ModifiedResponse;
+import attendance.domain.dto.RecordResponse;
 import attendance.domain.dto.RegisteredResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
@@ -43,6 +44,20 @@ public class Crew {
                 oldAttendanceResponse,
                 newAttendance.createResponse()
         );
+    }
+
+    public RecordResponse createResponse() {
+        return new RecordResponse(
+                nickname,
+                getAttendanceResponses(),
+                result.createResponse()
+        );
+    }
+
+    private List<AttendanceResponse> getAttendanceResponses() {
+        return attendances.stream()
+                .map(Attendance::createResponse)
+                .toList();
     }
 
     private Attendance updateDateTime(final LocalDateTime dateTime, final Attendance attendance) {

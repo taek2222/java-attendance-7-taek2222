@@ -7,6 +7,7 @@ import static attendance.global.validation.AttendanceValidator.validateSchoolDay
 import attendance.domain.Crew;
 import attendance.domain.Crews;
 import attendance.domain.dto.ModifiedResponse;
+import attendance.domain.dto.RecordResponse;
 import attendance.domain.dto.RegisteredResponse;
 import attendance.view.InputView;
 import attendance.view.OutputView;
@@ -37,6 +38,8 @@ public class AttendanceService {
 
         if (function.equals("3")) {
             Crew crew = getCrew(crews);
+            RecordResponse response = crew.createResponse();
+            outputView.printRecordAttendance(response);
         }
     }
 
