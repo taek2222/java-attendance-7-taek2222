@@ -1,5 +1,6 @@
 package attendance.service;
 
+import static attendance.global.util.DateTimeParser.parseDateTime;
 import static attendance.global.validation.AttendanceValidator.validateDayOfMonth;
 import static attendance.global.validation.AttendanceValidator.validateSchoolDay;
 
@@ -7,17 +8,15 @@ import attendance.domain.Crew;
 import attendance.domain.Crews;
 import attendance.domain.dto.ModifiedResponse;
 import attendance.domain.dto.RegisteredResponse;
-import attendance.global.util.TimeParser;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class AttendanceService {
 
-    private static final String CHECK_FUNCTION = "1";
+    private static final String REGISTER_FUNCTION = "1";
     private static final String MODIFY_FUNCTION = "2";
     private final InputView inputView;
     private final OutputView outputView;
@@ -28,43 +27,51 @@ public class AttendanceService {
     }
 
     public void processAttendance(String function, Crews crews) {
-        if (function.equals(CHECK_FUNCTION)) {
-            processAttendanceCheck(crews);
+        if (function.equals(REGISTER_FUNCTION)) {
+            processRegister(crews);
         }
 
         if (function.equals(MODIFY_FUNCTION)) {
-            String nickname = inputView.readModifyCrewNickname();
-            Crew crew = crews.getCrewByNickname(nickname);
-
-            int modifyDay = inputView.readModifyDay();
-            validateDayOfMonth(modifyDay);
-            LocalDate date = DateTimes.now().toLocalDate().withDayOfMonth(modifyDay);
-            validateSchoolDay(date);
-
-            String time = inputView.readModifyTime();
-            LocalDateTime dateTime = parseDateTime(date, time);
-
-            ModifiedResponse response = crew.updateAttendance(dateTime);
-            outputView.printModifiedAttendance(response);
+            processModify(crews);
         }
     }
 
-    private void processAttendanceCheck(final Crews crews) {
-        LocalDateTime now = DateTimes.now();
-        validateSchoolDay(now.toLocalDate());
+    private void processRegister(final Crews crews) {
+        validateSchoolDay(DateTimes.now().toLocalDate());
+        Crew crew = getCrewForRegister(crews);
+        registerCrewAttendance(crew);
+    }
 
-        String nickname = inputView.readAttendanceCrewNickname();
+    private void processModify(final Crews crews) {
+        String nickname = inputView.readModifyCrewNickname();
         Crew crew = crews.getCrewByNickname(nickname);
 
-        String input = inputView.readAttendanceTime();
-        LocalDateTime dateTime = parseDateTime(now.toLocalDate(), input);
+        int modifyDay = inputView.readModifyDay();
+        validateDayOfMonth(modifyDay);
+        LocalDate date = DateTimes.now().toLocalDate().withDayOfMonth(modifyDay);
+        validateSchoolDay(date);
+
+        String time = inputView.readModifyTime();
+        LocalDateTime dateTime = parseDateTime(date, time);
+
+        ModifiedResponse response = crew.updateAttendance(dateTime);
+        outputView.printModifiedAttendance(response);
+    }
+
+    private Crew getCrewForRegister(final Crews crews) {
+        String nickname = inputView.readRegisterCrewNickname();
+        return crews.getCrewByNickname(nickname);
+    }
+
+    private void registerCrewAttendance(final Crew crew) {
+        LocalDateTime dateTime = getDateTimeForRegister();
 
         RegisteredResponse response = crew.registerAttendance(dateTime);
         outputView.printRegisteredAttendance(response);
     }
 
-    private LocalDateTime parseDateTime(final LocalDate date, final String inputTime) {
-        LocalTime time = TimeParser.parseTime(inputTime);
-        return LocalDateTime.of(date, time);
+    private LocalDateTime getDateTimeForRegister() {
+        String input = inputView.readRegisterTime();
+        return parseDateTime(DateTimes.now().toLocalDate(), input);
     }
 }

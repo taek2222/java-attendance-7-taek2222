@@ -5,9 +5,16 @@ import static attendance.global.constant.ErrorMessage.INVALID_TIME_INPUT;
 
 import attendance.domain.CampusTime;
 import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class TimeParser {
+public class DateTimeParser {
+
+    public static LocalDateTime parseDateTime(final LocalDate date, final String inputTime) {
+        LocalTime time = parseTime(inputTime);
+        return LocalDateTime.of(date, time);
+    }
 
     public static LocalTime parseTime(String input) {
         validateTimeParse(input);
