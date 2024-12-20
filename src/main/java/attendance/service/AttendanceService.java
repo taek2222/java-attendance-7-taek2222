@@ -29,6 +29,13 @@ public class AttendanceService {
         if (function.equals(CHECK_FUNCTION)) {
             processAttendanceCheck(crews);
         }
+
+        if (function.equals("2")) {
+            String nickname = inputView.readModifyCrewNickname();
+            Crew crew = getCrewByNickname(crews, nickname);
+
+
+        }
     }
 
     private void processAttendanceCheck(final Crews crews) {

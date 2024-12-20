@@ -15,7 +15,12 @@ public class InputView {
         return input;
     }
 
-    public String readAttendanceNickname() {
+    public String readModifyCrewNickname() {
+        System.out.println("출석을 수정하려는 크루의 닉네임을 입력해 주세요.");
+        return Console.readLine();
+    }
+
+    public String readAttendanceCrewNickname() {
         System.out.println("닉네임을 입력해 주세요.");
         return Console.readLine();
     }
