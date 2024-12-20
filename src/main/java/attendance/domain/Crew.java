@@ -27,9 +27,9 @@ public class Crew {
     }
 
     public RegisteredResponse registerAttendance(LocalDateTime dateTime) {
-        validationAlreadyAttendance(dateTime.toLocalDate());
-        Attendance attendance = new Attendance(dateTime);
-        attendances.add(attendance);
+        Attendance attendance = findAttendanceByDate(dateTime.toLocalDate());
+        validationAlreadyAttendance(attendance);
+        updateDateTime(dateTime, attendance);
         return new RegisteredResponse(
                 attendance.createResponse()
         );
@@ -75,7 +75,7 @@ public class Crew {
         return attendances.stream()
                 .filter(attendance -> attendance.isSameDate(date))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow();
     }
 
     public boolean isSameNickname(String nickname) {
@@ -100,13 +100,9 @@ public class Crew {
         return Holiday.isHoliday(defaultDate);
     }
 
-    private void validationAlreadyAttendance(final LocalDate date) {
-        if (isAttendanceExist(date)) {
+    private void validationAlreadyAttendance(final Attendance attendance) {
+        if (!attendance.isDefault()) {
             throw new IllegalArgumentException(ALREADY_ATTENDANCE.get());
         }
-    }
-
-    private boolean isAttendanceExist(final LocalDate date) {
-        return findAttendanceByDate(date) != null;
     }
 }

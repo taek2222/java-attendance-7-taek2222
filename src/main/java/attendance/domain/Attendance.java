@@ -14,7 +14,7 @@ public class Attendance {
 
     public Attendance(final LocalDateTime dateTime) {
         this.dateTime = dateTime;
-        this.status = AttendanceStatus.evaluateAttendanceStatus(dateTime);
+        this.status = ABSENCE;
     }
 
     public Attendance updateDateTime(LocalDateTime dateTime) {

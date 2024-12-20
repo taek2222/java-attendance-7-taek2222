@@ -1,7 +1,6 @@
 package attendance.domain;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public enum AttendanceStatus {
     ATTENDANCE("출석", 5),
@@ -18,10 +17,6 @@ public enum AttendanceStatus {
     }
 
     public static AttendanceStatus evaluateAttendanceStatus(LocalDateTime dateTime) {
-        if (dateTime.toLocalTime().equals(LocalTime.MIN)) {
-            return ABSENCE;
-        }
-
         int timeBetween = ClassSchedule.calculateTimeBetween(dateTime);
         if (ATTENDANCE.threshold >= timeBetween) {
             return ATTENDANCE;
