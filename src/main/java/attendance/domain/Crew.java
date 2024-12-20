@@ -57,7 +57,7 @@ public class Crew {
         LocalDateTime defaultDateTime = nowDateTime.withDayOfMonth(1).with(LocalTime.MIN);
 
         while (!defaultDateTime.isAfter(nowDateTime)) {
-            if (isHoliday(defaultDateTime)) {
+            if (isHoliday(defaultDateTime.toLocalDate())) {
                 defaultDateTime = defaultDateTime.plusDays(1);
                 continue;
             }
@@ -66,8 +66,8 @@ public class Crew {
         }
     }
 
-    private boolean isHoliday(final LocalDateTime defaultDateTime) {
-        return Holiday.isHoliday(defaultDateTime);
+    private boolean isHoliday(final LocalDate defaultDate) {
+        return Holiday.isHoliday(defaultDate);
     }
 
     private void validationAlreadyAttendance(final Attendance attendance) {

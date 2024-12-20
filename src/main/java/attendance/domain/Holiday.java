@@ -1,6 +1,6 @@
 package attendance.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public enum Holiday {
     SATURDAY(6),
@@ -15,16 +15,16 @@ public enum Holiday {
         this.dayOfWeekValue = dayOfWeekValue;
     }
 
-    public static boolean isHoliday(LocalDateTime dateTime) {
-        return isWeekend(dateTime) || isChristmas(dateTime);
+    public static boolean isHoliday(final LocalDate date) {
+        return isWeekend(date) || isChristmas(date);
     }
 
-    private static boolean isChristmas(final LocalDateTime dateTime) {
-        return dateTime.getDayOfMonth() == CHRISTMAS;
+    private static boolean isChristmas(final LocalDate date) {
+        return date.getDayOfMonth() == CHRISTMAS;
     }
 
-    private static boolean isWeekend(final LocalDateTime dateTime) {
-        int dayOfWeekValue = dateTime.getDayOfWeek().getValue();
+    private static boolean isWeekend(final LocalDate date) {
+        int dayOfWeekValue = date.getDayOfWeek().getValue();
         return dayOfWeekValue == SATURDAY.dayOfWeekValue || dayOfWeekValue == SUNDAY.dayOfWeekValue;
     }
 }

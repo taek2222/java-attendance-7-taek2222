@@ -10,11 +10,11 @@ import attendance.domain.Crew;
 import attendance.domain.Holiday;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class AttendanceValidator {
 
-    public static void validateDay(final int day) {
+    public static void validateParseDay(final int day) {
         try {
             DateTimes.now().withDayOfMonth(day);
         } catch (DateTimeException e) {
@@ -22,12 +22,12 @@ public class AttendanceValidator {
         }
     }
 
-    public static void validateSchoolDay(final LocalDateTime dateTime) {
-        if (Holiday.isHoliday(dateTime)) {
+    public static void validateSchoolDay(final LocalDate date) {
+        if (Holiday.isHoliday(date)) {
             throw new IllegalArgumentException(NOT_SCHOOL_DAY.get(
-                    dateTime.getMonthValue(),
-                    dateTime.getDayOfMonth(),
-                    dateTime.getDayOfWeek().getDisplayName(FULL, KOREA)
+                    date.getMonthValue(),
+                    date.getDayOfMonth(),
+                    date.getDayOfWeek().getDisplayName(FULL, KOREA)
             ));
         }
     }
