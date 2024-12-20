@@ -55,7 +55,8 @@ public class Crew {
     }
 
     private List<AttendanceResponse> getAttendanceResponses() {
-        return attendances.stream()
+        List<Attendance> subbed = attendances.subList(0, attendances.size() - 1);
+        return subbed.stream()
                 .map(Attendance::createResponse)
                 .toList();
     }
@@ -67,7 +68,7 @@ public class Crew {
     }
 
     private void updateResult() {
-        this.result = new Result(attendances);
+        this.result = new Result(attendances.subList(0, attendances.size() - 1));
     }
 
     private Attendance findAttendanceByDate(final LocalDate date) {
