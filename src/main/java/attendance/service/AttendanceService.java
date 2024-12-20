@@ -7,6 +7,9 @@ import attendance.domain.Crews;
 import attendance.global.util.TimeParser;
 import attendance.view.InputView;
 import attendance.view.OutputView;
+import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class AttendanceService {
@@ -27,6 +30,11 @@ public class AttendanceService {
 
             String input = inputView.readAttendanceTime();
             LocalTime time = TimeParser.parseTime(input);
+
+            LocalDateTime now = DateTimes.now();
+            LocalDateTime dateTime = now.with(time);
+
+            crew.registerAttendance(dateTime);
         }
     }
 

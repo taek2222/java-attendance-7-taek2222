@@ -1,6 +1,7 @@
 package attendance.domain;
 
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -17,13 +18,21 @@ public class Crew {
         generateDefaultAttendances();
     }
 
+    public void registerAttendance(LocalDateTime dateTime) {
+        Attendance attendance = findAttendanceByDate(dateTime.toLocalDate());
+        attendance.updateDateTime(dateTime);
+    }
+
     public void updateAttendance(LocalDateTime dateTime) {
-        Attendance findAttendance = attendances.stream()
-                .filter(attendance -> attendance.isSameDate(dateTime.toLocalDate()))
+        Attendance findAttendance = findAttendanceByDate(dateTime.toLocalDate());
+        findAttendance.updateDateTime(dateTime);
+    }
+
+    private Attendance findAttendanceByDate(final LocalDate date) {
+        return attendances.stream()
+                .filter(attendance -> attendance.isSameDate(date))
                 .findFirst()
                 .orElseThrow();
-
-        findAttendance.updateDateTime(dateTime);
     }
 
     public boolean isSameNickname(String nickname) {
