@@ -1,6 +1,7 @@
 package attendance.domain;
 
-import java.time.LocalDateTime;
+import static attendance.global.constant.ErrorMessage.NOT_FOUND_NICKNAME;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,19 +17,26 @@ public class Crews {
         crews.add(crew);
     }
 
-    public void updateCrewAttendance(String nickname, LocalDateTime dateTime) {
+    public Crew getCrewByNickname(final String nickname) {
         Crew crew = findCrewByNickname(nickname);
-        crew.updateAttendance(dateTime);
+        validateCrew(crew);
+        return crew;
     }
 
     public boolean existsCrewByNickname(String nickname) {
         return findCrewByNickname(nickname) != null;
     }
 
-    public Crew findCrewByNickname(String nickname) {
+    private Crew findCrewByNickname(String nickname) {
         return crews.stream()
                 .filter(crew -> crew.isSameNickname(nickname))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private static void validateCrew(final Crew crew) {
+        if (crew == null) {
+            throw new IllegalArgumentException(NOT_FOUND_NICKNAME.get());
+        }
     }
 }

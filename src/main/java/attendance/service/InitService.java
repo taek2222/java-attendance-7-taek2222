@@ -21,11 +21,13 @@ public class InitService {
         for (String line : attendanceLines) {
             String[] fields = line.split(NAME_DATETIME_DELIMITER);
 
-            String name = fields[0];
+            String nickname = fields[0];
             LocalDateTime dateTime = LocalDateTime.parse(fields[1], DATE_TIME_FORMATTER);
 
-            addCrewIfNewCrew(crews, name);
-            crews.updateCrewAttendance(name, dateTime);
+            addCrewIfNewCrew(crews, nickname);
+
+            Crew crew = crews.getCrewByNickname(nickname);
+            crew.updateAttendance(dateTime);
         }
         return crews;
     }
