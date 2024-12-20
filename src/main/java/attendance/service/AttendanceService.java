@@ -6,6 +6,7 @@ import static attendance.global.validation.AttendanceValidator.validateSchoolDay
 import attendance.domain.Attendance;
 import attendance.domain.Crew;
 import attendance.domain.Crews;
+import attendance.domain.dto.ModifiedAttendanceResponse;
 import attendance.global.util.TimeParser;
 import attendance.view.InputView;
 import attendance.view.OutputView;
@@ -40,7 +41,8 @@ public class AttendanceService {
             String time = inputView.readModifyTime();
             LocalDateTime dateTime = parseDateTime(date, time);
 
-            crew.updateAttendance(dateTime);
+            ModifiedAttendanceResponse response = crew.updateAttendance(dateTime);
+            outputView.printModifiedAttendance(response);
         }
     }
 
@@ -55,7 +57,7 @@ public class AttendanceService {
         LocalDateTime dateTime = parseDateTime(now.toLocalDate(), input);
 
         Attendance attendance = crew.registerAttendance(dateTime);
-        outputView.printAttendanceInfo(attendance.createResponse());
+        outputView.printAttendanceCheck(attendance.createResponse());
     }
 
     private LocalDateTime parseDateTime(final LocalDate date, final String inputTime) {

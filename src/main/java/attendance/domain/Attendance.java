@@ -17,9 +17,10 @@ public class Attendance {
         this.status = ABSENCE;
     }
 
-    public void updateDateTime(LocalDateTime dateTime) {
+    public Attendance updateDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
         this.status = AttendanceStatus.evaluateAttendanceStatus(dateTime);
+        return this;
     }
 
     public boolean isDefault() {

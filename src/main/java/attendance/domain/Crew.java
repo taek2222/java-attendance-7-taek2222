@@ -2,6 +2,8 @@ package attendance.domain;
 
 import static attendance.global.constant.ErrorMessage.ALREADY_ATTENDANCE;
 
+import attendance.domain.dto.AttendanceResponse;
+import attendance.domain.dto.ModifiedAttendanceResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,9 +30,15 @@ public class Crew {
         return attendance;
     }
 
-    public void updateAttendance(LocalDateTime dateTime) {
-        Attendance findAttendance = findAttendanceByDate(dateTime.toLocalDate());
-        findAttendance.updateDateTime(dateTime);
+    public ModifiedAttendanceResponse updateAttendance(LocalDateTime dateTime) {
+        Attendance oldAttendance = findAttendanceByDate(dateTime.toLocalDate());
+        AttendanceResponse oldAttendanceResponse = oldAttendance.createResponse();
+
+        Attendance newAttendance = oldAttendance.updateDateTime(dateTime);
+        return new ModifiedAttendanceResponse(
+                oldAttendanceResponse,
+                newAttendance.createResponse()
+        );
     }
 
     private Attendance findAttendanceByDate(final LocalDate date) {
