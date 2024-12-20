@@ -3,14 +3,16 @@ package attendance.domain;
 import java.time.LocalDateTime;
 
 public enum AttendanceStatus {
-    ATTENDANCE(5),
-    PERCEPTION(30),
-    ABSENCE(Integer.MAX_VALUE)
+    ATTENDANCE("출석", 5),
+    PERCEPTION("지각", 30),
+    ABSENCE("결석", Integer.MAX_VALUE)
     ;
 
+    private final String status;
     private final int threshold;
 
-    AttendanceStatus(final int threshold) {
+    AttendanceStatus(final String status, final int threshold) {
+        this.status = status;
         this.threshold = threshold;
     }
 
@@ -24,5 +26,9 @@ public enum AttendanceStatus {
             return PERCEPTION;
         }
         return ABSENCE;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
