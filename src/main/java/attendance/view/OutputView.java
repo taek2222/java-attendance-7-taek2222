@@ -8,26 +8,27 @@ import static java.time.format.TextStyle.FULL;
 import static java.util.Locale.KOREA;
 
 import attendance.domain.dto.AttendanceResponse;
-import attendance.domain.dto.ModifiedAttendanceResponse;
+import attendance.domain.dto.ModifiedResponse;
+import attendance.domain.dto.RegisteredResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 
 public class OutputView {
     
-    public void printModifiedAttendance(ModifiedAttendanceResponse response) {
+    public void printModifiedAttendance(ModifiedResponse response) {
         System.out.printf(NEW_LINE.get());
-        printAttendanceInfo(response.oldAttendance());
+        printAttendanceInfo(response.before());
 
-        AttendanceResponse newAttendance = response.newAttendance();
+        AttendanceResponse newAttendance = response.after();
         System.out.println(OUTPUT_MODIFIED_ATTENDANCE.get(
                 newAttendance.dateTime().toLocalTime(),
                 newAttendance.attendanceStatus()
         ));
     }
 
-    public void printAttendanceCheck(AttendanceResponse response) {
+    public void printRegisteredAttendance(RegisteredResponse response) {
         System.out.printf(NEW_LINE.get());
-        printAttendanceInfo(response);
+        printAttendanceInfo(response.register());
     }
 
     private void printAttendanceInfo(final AttendanceResponse response) {
