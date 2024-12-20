@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import static attendance.global.constant.ErrorMessage.AFTER_CLASS_TIME;
+
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -24,8 +26,16 @@ public enum AttendanceType {
 
     public static int calculateTimeBetween(LocalDateTime dateTime) {
         AttendanceType attendanceType = findTypeByDayOfWeek(dateTime.getDayOfWeek());
+        validationAfterClass(dateTime.toLocalTime(), attendanceType);
+
         Duration between = Duration.between(attendanceType.startTime, dateTime.toLocalTime());
         return (int) between.toMinutes();
+    }
+
+    private static void validationAfterClass(final LocalTime time, final AttendanceType attendanceType) {
+        if (time.isAfter(attendanceType.endTime)) {
+            throw new IllegalArgumentException(AFTER_CLASS_TIME.get());
+        }
     }
 
     private static AttendanceType findTypeByDayOfWeek(final DayOfWeek dayOfWeek) {
