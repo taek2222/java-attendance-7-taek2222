@@ -8,11 +8,11 @@ public enum AttendanceStatus {
     ABSENCE("결석", Integer.MAX_VALUE)
     ;
 
-    private final String status;
+    private final String name;
     private final int threshold;
 
-    AttendanceStatus(final String status, final int threshold) {
-        this.status = status;
+    AttendanceStatus(final String name, final int threshold) {
+        this.name = name;
         this.threshold = threshold;
     }
 
@@ -28,7 +28,7 @@ public enum AttendanceStatus {
         return ABSENCE;
     }
 
-    public String getStatus() {
-        return status;
+    public String getName() {
+        return name;
     }
 }

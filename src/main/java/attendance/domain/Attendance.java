@@ -38,7 +38,7 @@ public class Attendance {
     public AttendanceResponse createResponse() {
         return new AttendanceResponse(
                 dateTime,
-                status.getStatus()
+                status.getName()
         );
     }
 }
