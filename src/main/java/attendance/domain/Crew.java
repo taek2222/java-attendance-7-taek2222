@@ -20,10 +20,12 @@ public class Crew {
         generateDefaultAttendances();
     }
 
-    public void registerAttendance(LocalDateTime dateTime) {
+    public Attendance registerAttendance(LocalDateTime dateTime) {
         Attendance attendance = findAttendanceByDate(dateTime.toLocalDate());
         validationAlreadyAttendance(attendance);
         attendance.updateDateTime(dateTime);
+
+        return attendance;
     }
 
     public void updateAttendance(LocalDateTime dateTime) {
