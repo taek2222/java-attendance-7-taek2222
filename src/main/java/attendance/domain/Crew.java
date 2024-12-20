@@ -34,7 +34,7 @@ public class Crew {
         LocalDateTime nowDateTime = DateTimes.now();
         LocalDateTime defaultDateTime = nowDateTime.withDayOfMonth(1).with(LocalTime.MIN);
 
-        while (defaultDateTime.isBefore(nowDateTime)) {
+        while (!defaultDateTime.isAfter(nowDateTime)) {
             if (isHoliday(defaultDateTime)) {
                 defaultDateTime = defaultDateTime.plusDays(1);
                 continue;
