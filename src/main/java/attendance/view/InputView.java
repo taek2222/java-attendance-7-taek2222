@@ -2,6 +2,7 @@ package attendance.view;
 
 import static attendance.global.constant.MessageConstant.INPUT_FUNCTION_SELECTION;
 import static attendance.view.InputValidator.validateFunctionSelection;
+import static attendance.view.InputValidator.validateIsNumeric;
 
 import camp.nextstep.edu.missionutils.Console;
 
@@ -13,6 +14,14 @@ public class InputView {
         String input = Console.readLine();
         validateFunctionSelection(input);
         return input;
+    }
+
+    public int readModifyDay() {
+        System.out.println("수정하려는 날짜(일)를 입력해 주세요.");
+        String input = Console.readLine();
+
+        validateIsNumeric(input);
+        return Integer.parseInt(input);
     }
 
     public String readModifyCrewNickname() {
