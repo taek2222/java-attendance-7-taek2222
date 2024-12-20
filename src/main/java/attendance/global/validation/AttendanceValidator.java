@@ -15,9 +15,9 @@ import java.time.LocalDate;
 
 public class AttendanceValidator {
 
-    public static void validateDay(final int day) {
-        validateParseDay(day);
-        validateOverDay(day);
+    public static void validateDayOfMonth(final int day) {
+        validateParsableDay(day);
+        validateFutureDay(day);
     }
 
     public static void validateSchoolDay(final LocalDate date) {
@@ -36,7 +36,7 @@ public class AttendanceValidator {
         }
     }
 
-    private static void validateParseDay(final int day) {
+    private static void validateParsableDay(final int day) {
         try {
             DateTimes.now().withDayOfMonth(day);
         } catch (DateTimeException e) {
@@ -44,7 +44,7 @@ public class AttendanceValidator {
         }
     }
 
-    private static void validateOverDay(final int day) {
+    private static void validateFutureDay(final int day) {
         if (DateTimes.now().getDayOfMonth() < day) {
             throw new IllegalArgumentException(NOT_MODIFY_DAY.get());
         }

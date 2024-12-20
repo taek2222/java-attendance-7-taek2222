@@ -1,7 +1,7 @@
 package attendance.service;
 
 import static attendance.global.validation.AttendanceValidator.validateCrew;
-import static attendance.global.validation.AttendanceValidator.validateDay;
+import static attendance.global.validation.AttendanceValidator.validateDayOfMonth;
 import static attendance.global.validation.AttendanceValidator.validateSchoolDay;
 
 import attendance.domain.Attendance;
@@ -19,6 +19,7 @@ import java.time.LocalTime;
 public class AttendanceService {
 
     private static final String CHECK_FUNCTION = "1";
+    private static final String MODIFY_FUNCTION = "2";
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -32,12 +33,12 @@ public class AttendanceService {
             processAttendanceCheck(crews);
         }
 
-        if (function.equals("2")) {
+        if (function.equals(MODIFY_FUNCTION)) {
             String nickname = inputView.readModifyCrewNickname();
             Crew crew = getCrewByNickname(crews, nickname);
 
             int modifyDay = inputView.readModifyDay();
-            validateDay(modifyDay);
+            validateDayOfMonth(modifyDay);
             LocalDate date = DateTimes.now().toLocalDate().withDayOfMonth(modifyDay);
             validateSchoolDay(date);
 
