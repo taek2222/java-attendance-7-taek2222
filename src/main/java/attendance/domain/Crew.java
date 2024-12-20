@@ -17,6 +17,19 @@ public class Crew {
         generateDefaultAttendances();
     }
 
+    public void updateAttendance(LocalDateTime dateTime) {
+        Attendance findAttendance = attendances.stream()
+                .filter(attendance -> attendance.isSameDate(dateTime.toLocalDate()))
+                .findFirst()
+                .orElseThrow();
+
+        findAttendance.updateDateTime(dateTime);
+    }
+
+    public boolean isSameNickname(String nickname) {
+        return this.nickname.equals(nickname);
+    }
+
     private void generateDefaultAttendances() {
         LocalDateTime nowDateTime = DateTimes.now();
         LocalDateTime defaultDateTime = nowDateTime.withDayOfMonth(1).with(LocalTime.MIN);
