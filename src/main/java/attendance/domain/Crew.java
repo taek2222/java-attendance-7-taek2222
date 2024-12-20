@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import static attendance.global.constant.ErrorMessage.ALREADY_ATTENDANCE;
+
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +22,7 @@ public class Crew {
 
     public void registerAttendance(LocalDateTime dateTime) {
         Attendance attendance = findAttendanceByDate(dateTime.toLocalDate());
+        validationAlreadyAttendance(attendance);
         attendance.updateDateTime(dateTime);
     }
 
@@ -55,5 +58,11 @@ public class Crew {
 
     private boolean isHoliday(final LocalDateTime defaultDateTime) {
         return Holiday.isHoliday(defaultDateTime);
+    }
+
+    private void validationAlreadyAttendance(final Attendance attendance) {
+        if (!attendance.isDefault()) {
+            throw new IllegalArgumentException(ALREADY_ATTENDANCE.get());
+        }
     }
 }

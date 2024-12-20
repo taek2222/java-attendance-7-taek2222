@@ -2,6 +2,7 @@ package attendance.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Attendance {
 
@@ -9,6 +10,10 @@ public class Attendance {
 
     public Attendance(final LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public boolean isDefault() {
+        return dateTime.toLocalTime().equals(LocalTime.MIN);
     }
 
     public void updateDateTime(LocalDateTime dateTime) {
