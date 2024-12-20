@@ -37,25 +37,16 @@ public class AttendanceService {
     }
 
     private void processRegister(final Crews crews) {
-        validateSchoolDay(DateTimes.now().toLocalDate());
+        validateSchoolDay(DateTimes.now().toLocalDate()); // 등교 휴일 검사
         Crew crew = getCrewForRegister(crews);
         registerCrewAttendance(crew);
     }
 
     private void processModify(final Crews crews) {
-        String nickname = inputView.readModifyCrewNickname();
-        Crew crew = crews.getCrewByNickname(nickname);
-
-        int modifyDay = inputView.readModifyDay();
-        validateDayOfMonth(modifyDay);
-        LocalDate date = DateTimes.now().toLocalDate().withDayOfMonth(modifyDay);
-        validateSchoolDay(date);
-
-        String time = inputView.readModifyTime();
-        LocalDateTime dateTime = parseDateTime(date, time);
-
-        ModifiedResponse response = crew.updateAttendance(dateTime);
-        outputView.printModifiedAttendance(response);
+        Crew crew = getCrewForModify(crews);
+        LocalDate date = getDateForModify();
+        LocalDateTime dateTime = getDateTimeForModify(date);
+        modifyCrewAttendance(crew, dateTime);
     }
 
     private Crew getCrewForRegister(final Crews crews) {
@@ -68,6 +59,30 @@ public class AttendanceService {
 
         RegisteredResponse response = crew.registerAttendance(dateTime);
         outputView.printRegisteredAttendance(response);
+    }
+
+    private Crew getCrewForModify(final Crews crews) {
+        String nickname = inputView.readModifyCrewNickname();
+        return crews.getCrewByNickname(nickname);
+    }
+
+    private LocalDate getDateForModify() {
+        int modifyDay = inputView.readModifyDay();
+        validateDayOfMonth(modifyDay);
+
+        LocalDate date = DateTimes.now().toLocalDate().withDayOfMonth(modifyDay);
+        validateSchoolDay(date);
+        return date;
+    }
+
+    private LocalDateTime getDateTimeForModify(final LocalDate date) {
+        String time = inputView.readModifyTime();
+        return parseDateTime(date, time);
+    }
+
+    private void modifyCrewAttendance(final Crew crew, final LocalDateTime dateTime) {
+        ModifiedResponse response = crew.updateAttendance(dateTime);
+        outputView.printModifiedAttendance(response);
     }
 
     private LocalDateTime getDateTimeForRegister() {
