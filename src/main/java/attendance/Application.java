@@ -1,16 +1,21 @@
 package attendance;
 
 import attendance.controller.AttendanceController;
+import attendance.service.AttendanceService;
 import attendance.service.InitService;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
+        InputView inputView = new InputView();
+        OutputView outputView = new OutputView();
+
         AttendanceController attendanceController = new AttendanceController(
-                new InputView(),
-                new OutputView(),
-                new InitService()
+                inputView,
+                outputView,
+                new InitService(),
+                new AttendanceService(inputView, outputView)
         );
 
         attendanceController.run();
