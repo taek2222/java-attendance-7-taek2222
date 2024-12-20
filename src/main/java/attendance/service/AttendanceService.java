@@ -1,7 +1,7 @@
 package attendance.service;
 
 import static attendance.global.validation.AttendanceValidator.validateCrew;
-import static attendance.global.validation.AttendanceValidator.validateDay;
+import static attendance.global.validation.AttendanceValidator.validateParseDay;
 import static attendance.global.validation.AttendanceValidator.validateSchoolDay;
 
 import attendance.domain.Attendance;
@@ -37,8 +37,9 @@ public class AttendanceService {
             Crew crew = getCrewByNickname(crews, nickname);
 
             int modifyDay = inputView.readModifyDay();
-            validateDay(modifyDay);
+            validateParseDay(modifyDay);
             LocalDate date = DateTimes.now().toLocalDate().withDayOfMonth(modifyDay);
+            validateSchoolDay(date);
 
             String time = inputView.readModifyTime();
             LocalDateTime dateTime = parseDateTime(date, time);
@@ -50,7 +51,7 @@ public class AttendanceService {
 
     private void processAttendanceCheck(final Crews crews) {
         LocalDateTime now = DateTimes.now();
-        validateSchoolDay(now);
+        validateSchoolDay(now.toLocalDate());
 
         String nickname = inputView.readAttendanceCrewNickname();
         Crew crew = getCrewByNickname(crews, nickname);
