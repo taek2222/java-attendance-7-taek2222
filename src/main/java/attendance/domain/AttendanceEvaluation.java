@@ -1,6 +1,6 @@
 package attendance.domain;
 
-public enum Weeding {
+public enum AttendanceEvaluation {
     SINCERITY("성실", 0),
     WARNING("경고", 2),
     INTERVIEW("면담", 3),
@@ -10,12 +10,12 @@ public enum Weeding {
     private final String name;
     private final int threshold;
 
-    Weeding(final String name, final int threshold) {
+    AttendanceEvaluation(final String name, final int threshold) {
         this.name = name;
         this.threshold = threshold;
     }
 
-    public static Weeding evaluateWeeding(int perception, int absence) {
+    public static AttendanceEvaluation evaluateAttendance(int perception, int absence) {
         int totalAbsence = absence + (perception / 3);
 
         if (totalAbsence > WEEDING.threshold) {

@@ -24,7 +24,7 @@ public class Result {
                 attendance,
                 perception,
                 absence,
-                Weeding.evaluateWeeding(perception, absence).getName()
+                AttendanceEvaluation.evaluateAttendance(perception, absence).getName()
         );
     }
 
