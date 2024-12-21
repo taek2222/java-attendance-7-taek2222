@@ -4,8 +4,10 @@ import static attendance.global.constant.MessageConstant.DEFAULT_TIME;
 import static attendance.global.constant.MessageConstant.NEW_LINE;
 import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_DETAIL;
 import static attendance.global.constant.MessageConstant.OUTPUT_DATE_AND_FUNCTION_SELECTION;
+import static attendance.global.constant.MessageConstant.OUTPUT_EXPULSION_RISK;
+import static attendance.global.constant.MessageConstant.OUTPUT_EXPULSION_RISK_HEADER;
 import static attendance.global.constant.MessageConstant.OUTPUT_MODIFIED_RESULT;
-import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_RECORD;
+import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_RECORD_HEADER;
 import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_RESULT;
 import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_EVALUATION;
 import static java.time.format.TextStyle.FULL;
@@ -13,6 +15,7 @@ import static java.util.Locale.KOREA;
 
 import attendance.domain.dto.AttendanceResponse;
 import attendance.domain.dto.AttendanceResultResponse;
+import attendance.domain.dto.ExpulsionRiskResponse;
 import attendance.domain.dto.ModifiedResponse;
 import attendance.domain.dto.RecordResponse;
 import attendance.domain.dto.RegisteredResponse;
@@ -50,10 +53,25 @@ public class OutputView {
 
     public void printAttendanceRecord(RecordResponse response) {
         System.out.print(NEW_LINE.get());
-        System.out.println(OUTPUT_ATTENDANCE_RECORD.get(response.nickname()));
+        System.out.println(OUTPUT_ATTENDANCE_RECORD_HEADER.get(response.nickname()));
 
         printAttendanceDetails(response.attendances());
         printAttendanceResult(response.attendanceResult());
+    }
+
+    public void printExpulsionRisks(ExpulsionRiskResponse response) {
+        System.out.println(OUTPUT_EXPULSION_RISK_HEADER);
+        response.expulsionRisks().forEach(this::printExpulsionRisk);
+    }
+
+    private void printExpulsionRisk(RecordResponse response) {
+        AttendanceResultResponse attendanceResult = response.attendanceResult();
+        System.out.println(OUTPUT_EXPULSION_RISK.get(
+                response.nickname(),
+                attendanceResult.absence(),
+                attendanceResult.perception(),
+                attendanceResult.evaluation()
+        ));
     }
 
     private void printAttendanceResult(AttendanceResultResponse response) {
