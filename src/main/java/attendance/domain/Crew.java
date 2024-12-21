@@ -105,7 +105,7 @@ public class Crew {
     }
 
     private void validationAlreadyAttendance(final Attendance attendance) {
-        if (!attendance.isDefault()) {
+        if (!attendance.isInitialTime()) {
             throw new IllegalArgumentException(ALREADY_ATTENDANCE.get());
         }
     }
