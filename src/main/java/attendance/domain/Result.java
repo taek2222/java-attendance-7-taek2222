@@ -4,7 +4,7 @@ import static attendance.domain.AttendanceStatus.ABSENCE;
 import static attendance.domain.AttendanceStatus.ATTENDANCE;
 import static attendance.domain.AttendanceStatus.PERCEPTION;
 
-import attendance.domain.dto.ResultResponse;
+import attendance.domain.dto.AttendanceResultResponse;
 import java.util.List;
 
 public class Result {
@@ -19,8 +19,8 @@ public class Result {
         this.absence = countByStatus(attendances, ABSENCE);
     }
 
-    public ResultResponse createResponse() {
-        return new ResultResponse(
+    public AttendanceResultResponse createResponse() {
+        return new AttendanceResultResponse(
                 attendance,
                 perception,
                 absence,

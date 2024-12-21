@@ -1,6 +1,6 @@
 package attendance.domain.dto;
 
-public record ResultResponse(
+public record AttendanceResultResponse(
         int attendance,
         int perception,
         int absence,
