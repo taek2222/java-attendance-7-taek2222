@@ -17,6 +17,7 @@ public class Crews {
         this.crews = crews;
     }
 
+    // 제적 위험자 조회 반환
     public ExpulsionRiskResponse createExpulsionRiskResponse() {
         List<CrewResponse> crewResponses = createCrewResponses();
         crewResponses = sortCrewResponses(crewResponses);
@@ -29,6 +30,7 @@ public class Crews {
                 .toList();
     }
 
+    // 제적 위험자 정렬
     private List<CrewResponse> sortCrewResponses(List<CrewResponse> responses) {
         return responses.stream()
                 .sorted(Comparator.comparingInt((CrewResponse r) -> r.attendanceResult().absence() + r.attendanceResult().perception() / PERCEPTION_TO_ABSENCE_RATIO)
