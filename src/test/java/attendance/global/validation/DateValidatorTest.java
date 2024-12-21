@@ -3,8 +3,8 @@ package attendance.global.validation;
 import static attendance.global.constant.ErrorMessage.INVALID_INPUT;
 import static attendance.global.constant.ErrorMessage.NOT_MODIFY_DAY;
 import static attendance.global.constant.ErrorMessage.NOT_SCHOOL_DAY;
-import static attendance.global.validation.AttendanceValidator.validateDayOfMonth;
-import static attendance.global.validation.AttendanceValidator.validateSchoolDay;
+import static attendance.global.validation.DateValidator.validateDayOfMonth;
+import static attendance.global.validation.DateValidator.validateSchoolDay;
 import static java.time.format.TextStyle.FULL;
 import static java.util.Locale.KOREA;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -16,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class AttendanceValidatorTest {
+class DateValidatorTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 35})

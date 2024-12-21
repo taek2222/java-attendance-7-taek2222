@@ -11,7 +11,7 @@ import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-public class AttendanceValidator {
+public class DateValidator {
 
     public static void validateDayOfMonth(final int day) {
         validateParsableDay(day);
@@ -36,6 +36,7 @@ public class AttendanceValidator {
         }
     }
 
+    // 미래 날짜 검사
     private static void validateFutureDay(final int day) {
         if (DateTimes.now().getDayOfMonth() < day) {
             throw new IllegalArgumentException(NOT_MODIFY_DAY.get());

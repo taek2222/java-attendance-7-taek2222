@@ -1,8 +1,8 @@
 package attendance.service;
 
 import static attendance.global.util.DateTimeParser.parseDateTime;
-import static attendance.global.validation.AttendanceValidator.validateDayOfMonth;
-import static attendance.global.validation.AttendanceValidator.validateSchoolDay;
+import static attendance.global.validation.DateValidator.validateDayOfMonth;
+import static attendance.global.validation.DateValidator.validateSchoolDay;
 
 import attendance.domain.Crew;
 import attendance.domain.Crews;
