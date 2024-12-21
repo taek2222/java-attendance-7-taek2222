@@ -24,7 +24,7 @@ class ClassTimeTest {
         LocalDateTime dateTime = LocalDateTime.of(date, time);
 
         // when & then
-        assertThatThrownBy(() -> ClassTime.calculateTimeBetween(dateTime))
+        assertThatThrownBy(() -> ClassTime.calculateDelayMinutes(dateTime))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(AFTER_CLASS_TIME.get());
     }
@@ -40,7 +40,7 @@ class ClassTimeTest {
         LocalDateTime dateTime = LocalDateTime.of(date, time);
 
         // when
-        int result = ClassTime.calculateTimeBetween(dateTime);
+        int result = ClassTime.calculateDelayMinutes(dateTime);
 
         // then
         assertThat(result)
