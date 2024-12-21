@@ -1,87 +1,27 @@
 package attendance.view;
 
+import static attendance.global.constant.MessageConstant.DEFAULT_TIME;
 import static attendance.global.constant.MessageConstant.NEW_LINE;
-import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_INFO;
+import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_DETAIL;
 import static attendance.global.constant.MessageConstant.OUTPUT_DATE_AND_FUNCTION_SELECTION;
-import static attendance.global.constant.MessageConstant.OUTPUT_MODIFIED_ATTENDANCE;
-import static attendance.global.constant.MessageConstant.OUTPUT_RECORD_ATTENDANCE;
-import static attendance.global.constant.MessageConstant.OUTPUT_RESULT;
-import static attendance.global.constant.MessageConstant.OUTPUT_WEEDING;
+import static attendance.global.constant.MessageConstant.OUTPUT_MODIFIED_RESULT;
+import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_RECORD;
+import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_RESULT;
+import static attendance.global.constant.MessageConstant.OUTPUT_ATTENDANCE_EVALUATION;
 import static java.time.format.TextStyle.FULL;
 import static java.util.Locale.KOREA;
 
 import attendance.domain.dto.AttendanceResponse;
+import attendance.domain.dto.AttendanceResultResponse;
 import attendance.domain.dto.ModifiedResponse;
 import attendance.domain.dto.RecordResponse;
 import attendance.domain.dto.RegisteredResponse;
-import attendance.domain.dto.ResultResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 public class OutputView {
-    
-    public void printRecordAttendance(RecordResponse response) {
-        System.out.printf(NEW_LINE.get());
-        System.out.println(OUTPUT_RECORD_ATTENDANCE.get(response.nickname()));
-
-        List<AttendanceResponse> attendances = response.attendances();
-        attendances.forEach(attendance -> {
-            this.printAttendanceInfo(attendance);
-            System.out.printf(NEW_LINE.get());
-        });
-
-        printResult(response.result());
-        printWeeding(response.result());
-    }
-
-    private void printWeeding(ResultResponse response) {
-        System.out.println(OUTPUT_WEEDING.get(response.weeding()));
-    }
-
-    private void printResult(ResultResponse response) {
-        System.out.printf(NEW_LINE.get());
-        System.out.println(OUTPUT_RESULT.get(
-                response.attendance(),
-                response.perception(),
-                response.absence()
-        ));
-    }
-
-    public void printModifiedAttendance(ModifiedResponse response) {
-        System.out.printf(NEW_LINE.get());
-        printAttendanceInfo(response.before());
-
-        AttendanceResponse newAttendance = response.after();
-        System.out.println(OUTPUT_MODIFIED_ATTENDANCE.get(
-                newAttendance.dateTime().toLocalTime(),
-                newAttendance.attendanceStatus()
-        ));
-    }
-
-    public void printRegisteredAttendance(RegisteredResponse response) {
-        System.out.printf(NEW_LINE.get());
-        printAttendanceInfo(response.register());
-    }
-
-    private void printAttendanceInfo(final AttendanceResponse response) {
-        LocalDateTime dateTime = response.dateTime();
-        System.out.print(OUTPUT_ATTENDANCE_INFO.get(
-                dateTime.getMonthValue(),
-                dateTime.getDayOfMonth(),
-                dateTime.getDayOfWeek().getDisplayName(FULL, KOREA),
-                printTime(dateTime.toLocalTime()),
-                response.attendanceStatus()
-        ));
-    }
-
-    private String printTime(final LocalTime time) {
-        if (time.equals(LocalTime.MIN)) {
-            return "--:--";
-        }
-        return time.toString();
-    }
 
     public void printDateAndFunctionSelection() {
         LocalDateTime now = DateTimes.now();
@@ -89,7 +29,64 @@ public class OutputView {
                 now.getMonthValue(),
                 now.getDayOfMonth(),
                 now.getDayOfWeek().getDisplayName(FULL, KOREA)
-                )
-        );
+        ));
+    }
+
+    public void printRegisteredResult(RegisteredResponse response) {
+        System.out.print(NEW_LINE.get());
+        printAttendanceDetail(response.register());
+    }
+
+    public void printModifiedResult(ModifiedResponse response) {
+        System.out.print(NEW_LINE.get());
+        printAttendanceDetail(response.before());
+
+        AttendanceResponse newAttendance = response.after();
+        System.out.println(OUTPUT_MODIFIED_RESULT.get(
+                newAttendance.dateTime().toLocalTime(),
+                newAttendance.status()
+        ));
+    }
+
+    public void printAttendanceRecord(RecordResponse response) {
+        System.out.print(NEW_LINE.get());
+        System.out.println(OUTPUT_ATTENDANCE_RECORD.get(response.nickname()));
+
+        printAttendanceDetails(response.attendances());
+        printAttendanceResult(response.attendanceResult());
+    }
+
+    private void printAttendanceResult(AttendanceResultResponse response) {
+        System.out.print(NEW_LINE.get());
+        System.out.println(OUTPUT_ATTENDANCE_RESULT.get(
+                response.attendance(),
+                response.perception(),
+                response.absence()));
+
+        System.out.println(OUTPUT_ATTENDANCE_EVALUATION.get(response.evaluation()));
+    }
+
+    private void printAttendanceDetails(final List<AttendanceResponse> attendances) {
+        attendances.forEach(attendance -> {
+            this.printAttendanceDetail(attendance);
+            System.out.print(NEW_LINE.get());
+        });
+    }
+
+    private void printAttendanceDetail(final AttendanceResponse response) {
+        LocalDateTime dateTime = response.dateTime();
+        System.out.print(OUTPUT_ATTENDANCE_DETAIL.get(
+                dateTime.getMonthValue(),
+                dateTime.getDayOfMonth(),
+                dateTime.getDayOfWeek().getDisplayName(FULL, KOREA),
+                formatTime(dateTime.toLocalTime()),
+                response.status()));
+    }
+
+    private String formatTime(final LocalTime time) {
+        if (time.equals(LocalTime.MIN)) {
+            return DEFAULT_TIME.get();
+        }
+        return time.toString();
     }
 }

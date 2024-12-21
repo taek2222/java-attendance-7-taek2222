@@ -4,6 +4,6 @@ public record AttendanceResultResponse(
         int attendance,
         int perception,
         int absence,
-        String weeding
+        String evaluation
 ) {
 }

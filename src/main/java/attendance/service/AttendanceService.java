@@ -39,7 +39,7 @@ public class AttendanceService {
         if (function.equals("3")) {
             Crew crew = getCrew(crews);
             RecordResponse response = crew.createResponse();
-            outputView.printRecordAttendance(response);
+            outputView.printAttendanceRecord(response);
         }
     }
 
@@ -65,7 +65,7 @@ public class AttendanceService {
         LocalDateTime dateTime = getDateTimeForRegister();
 
         RegisteredResponse response = crew.registerAttendance(dateTime);
-        outputView.printRegisteredAttendance(response);
+        outputView.printRegisteredResult(response);
     }
 
     private Crew getCrewForModify(final Crews crews) {
@@ -89,7 +89,7 @@ public class AttendanceService {
 
     private void modifyCrewAttendance(final Crew crew, final LocalDateTime dateTime) {
         ModifiedResponse response = crew.updateAttendance(dateTime);
-        outputView.printModifiedAttendance(response);
+        outputView.printModifiedResult(response);
     }
 
     private LocalDateTime getDateTimeForRegister() {
