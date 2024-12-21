@@ -96,7 +96,7 @@ public class Crew {
     }
 
     private void updateResult() {
-        this.result = new AttendanceResults(attendances.subList(0, attendances.size() - 1));
+        this.result = new AttendanceResults(attendances);
     }
 
     private List<AttendanceResponse> getAttendanceResponses() {

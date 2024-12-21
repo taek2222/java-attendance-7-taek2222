@@ -14,9 +14,10 @@ public class AttendanceResults {
     private final int absence;
 
     public AttendanceResults(List<Attendance> attendances) {
-        this.attendance = countByStatus(attendances, ATTENDANCE);
-        this.perception = countByStatus(attendances, PERCEPTION);
-        this.absence = countByStatus(attendances, ABSENCE);
+        List<Attendance> subbed = attendances.subList(0, attendances.size() - 1); // 오늘 날짜 제외
+        this.attendance = countByStatus(subbed, ATTENDANCE);
+        this.perception = countByStatus(subbed, PERCEPTION);
+        this.absence = countByStatus(subbed, ABSENCE);
     }
 
     public AttendanceResultResponse createResponse() {
