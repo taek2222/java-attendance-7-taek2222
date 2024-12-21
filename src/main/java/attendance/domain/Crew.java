@@ -58,58 +58,6 @@ public class Crew {
         );
     }
 
-    private List<AttendanceResponse> getAttendanceResponses() {
-        List<Attendance> subbed = attendances.subList(0, attendances.size() - 1);
-        return subbed.stream()
-                .map(Attendance::createResponse)
-                .toList();
-    }
-
-    private Attendance updateDateTime(final LocalDateTime dateTime, final Attendance attendance) {
-        Attendance updated = attendance.updateDateTime(dateTime);
-        updateResult();
-        return updated;
-    }
-
-    private void updateResult() {
-        this.result = new AttendanceResults(attendances.subList(0, attendances.size() - 1));
-    }
-
-    private Attendance findAttendanceByDate(final LocalDate date) {
-        return attendances.stream()
-                .filter(attendance -> attendance.isSameDate(date))
-                .findFirst()
-                .orElseThrow();
-    }
-
-    public boolean isSameNickname(String nickname) {
-        return this.nickname.equals(nickname);
-    }
-
-    private void generateDefaultAttendances() {
-        LocalDateTime nowDateTime = DateTimes.now();
-        LocalDateTime defaultDateTime = nowDateTime.withDayOfMonth(1).with(LocalTime.MIN);
-
-        while (!defaultDateTime.isAfter(nowDateTime)) {
-            if (isHoliday(defaultDateTime.toLocalDate())) {
-                defaultDateTime = defaultDateTime.plusDays(1);
-                continue;
-            }
-            attendances.add(new Attendance(defaultDateTime));
-            defaultDateTime = defaultDateTime.plusDays(1);
-        }
-    }
-
-    private boolean isHoliday(final LocalDate defaultDate) {
-        return Holiday.isHoliday(defaultDate);
-    }
-
-    private void validationAlreadyAttendance(final Attendance attendance) {
-        if (!attendance.isInitialTime()) {
-            throw new IllegalArgumentException(ALREADY_ATTENDANCE.get());
-        }
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -122,5 +70,53 @@ public class Crew {
     @Override
     public int hashCode() {
         return Objects.hash(nickname);
+    }
+
+    public boolean isSameNickname(String nickname) {
+        return this.nickname.equals(nickname);
+    }
+
+    private Attendance findAttendanceByDate(final LocalDate date) {
+        return attendances.stream()
+                .filter(attendance -> attendance.isSameDate(date))
+                .findFirst()
+                .orElseThrow();
+    }
+
+    private void validationAlreadyAttendance(final Attendance attendance) {
+        if (!attendance.isInitialTime()) {
+            throw new IllegalArgumentException(ALREADY_ATTENDANCE.get());
+        }
+    }
+
+    private Attendance updateDateTime(final LocalDateTime dateTime, final Attendance attendance) {
+        Attendance updated = attendance.updateDateTime(dateTime);
+        updateResult();
+        return updated;
+    }
+
+    private void updateResult() {
+        this.result = new AttendanceResults(attendances.subList(0, attendances.size() - 1));
+    }
+
+    private List<AttendanceResponse> getAttendanceResponses() {
+        List<Attendance> subbed = attendances.subList(0, attendances.size() - 1);
+        return subbed.stream()
+                .map(Attendance::createResponse)
+                .toList();
+    }
+
+    private void generateDefaultAttendances() {
+        LocalDateTime now = DateTimes.now();
+        LocalDateTime defaultDateTime = now.withDayOfMonth(1).with(LocalTime.MIN);
+
+        while (!defaultDateTime.isAfter(now)) {
+            if (Holiday.isHoliday(defaultDateTime.toLocalDate())) {
+                defaultDateTime = defaultDateTime.plusDays(1);
+                continue;
+            }
+            attendances.add(new Attendance(defaultDateTime));
+            defaultDateTime = defaultDateTime.plusDays(1);
+        }
     }
 }
