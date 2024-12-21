@@ -64,33 +64,6 @@ public class OutputView {
         response.expulsionRisks().forEach(this::printExpulsionRisk);
     }
 
-    private void printExpulsionRisk(CrewResponse response) {
-        AttendanceResultResponse attendanceResult = response.attendanceResult();
-        System.out.println(OUTPUT_EXPULSION_RISK.get(
-                response.nickname(),
-                attendanceResult.absence(),
-                attendanceResult.perception(),
-                attendanceResult.evaluation()
-        ));
-    }
-
-    private void printAttendanceResult(AttendanceResultResponse response) {
-        System.out.print(NEW_LINE.get());
-        System.out.println(OUTPUT_ATTENDANCE_RESULT.get(
-                response.attendance(),
-                response.perception(),
-                response.absence()));
-
-        System.out.println(OUTPUT_ATTENDANCE_EVALUATION.get(response.evaluation()));
-    }
-
-    private void printAttendanceDetails(final List<AttendanceResponse> attendances) {
-        attendances.forEach(attendance -> {
-            this.printAttendanceDetail(attendance);
-            System.out.print(NEW_LINE.get());
-        });
-    }
-
     private void printAttendanceDetail(final AttendanceResponse response) {
         LocalDateTime dateTime = response.dateTime();
         System.out.print(OUTPUT_ATTENDANCE_DETAIL.get(
@@ -106,5 +79,32 @@ public class OutputView {
             return DEFAULT_TIME.get();
         }
         return time.toString();
+    }
+
+    private void printAttendanceDetails(final List<AttendanceResponse> attendances) {
+        attendances.forEach(attendance -> {
+            this.printAttendanceDetail(attendance);
+            System.out.print(NEW_LINE.get());
+        });
+    }
+
+    private void printAttendanceResult(AttendanceResultResponse response) {
+        System.out.print(NEW_LINE.get());
+        System.out.println(OUTPUT_ATTENDANCE_RESULT.get(
+                response.attendance(),
+                response.perception(),
+                response.absence()));
+
+        System.out.println(OUTPUT_ATTENDANCE_EVALUATION.get(response.evaluation()));
+    }
+
+    private void printExpulsionRisk(CrewResponse response) {
+        AttendanceResultResponse attendanceResult = response.attendanceResult();
+        System.out.println(OUTPUT_EXPULSION_RISK.get(
+                response.nickname(),
+                attendanceResult.absence(),
+                attendanceResult.perception(),
+                attendanceResult.evaluation()
+        ));
     }
 }
