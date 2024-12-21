@@ -17,7 +17,7 @@ public enum AttendanceStatus {
     }
 
     public static AttendanceStatus evaluateAttendanceStatus(LocalDateTime dateTime) {
-        int timeBetween = ClassSchedule.calculateTimeBetween(dateTime);
+        int timeBetween = ClassTime.calculateTimeBetween(dateTime);
         if (ATTENDANCE.threshold >= timeBetween) {
             return ATTENDANCE;
         }

@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class ClassScheduleTest {
+class ClassTimeTest {
 
     @ParameterizedTest(name = "시간: {0}")
     @CsvSource({
@@ -23,7 +23,7 @@ class ClassScheduleTest {
         LocalDateTime dateTime = LocalDateTime.of(date, time);
 
         // when & then
-        assertThatThrownBy(() -> ClassSchedule.calculateTimeBetween(dateTime))
+        assertThatThrownBy(() -> ClassTime.calculateTimeBetween(dateTime))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(AFTER_CLASS_TIME.get());
     }
@@ -39,7 +39,7 @@ class ClassScheduleTest {
         LocalDateTime dateTime = LocalDateTime.of(date, time);
 
         // when
-        int result = ClassSchedule.calculateTimeBetween(dateTime);
+        int result = ClassTime.calculateTimeBetween(dateTime);
 
         // then
         assertThat(result)
