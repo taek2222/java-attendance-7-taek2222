@@ -3,11 +3,13 @@ package attendance.domain;
 import static attendance.global.constant.ErrorMessage.NOT_FOUND_NICKNAME;
 
 import attendance.domain.dto.ExpulsionRiskResponse;
-import attendance.domain.dto.RecordResponse;
+import attendance.domain.dto.CrewResponse;
 import java.util.Comparator;
 import java.util.List;
 
 public class Crews {
+
+    private static final int PERCEPTION_TO_ABSENCE_RATIO = 3;
 
     private final List<Crew> crews;
 
@@ -16,23 +18,23 @@ public class Crews {
     }
 
     public ExpulsionRiskResponse createExpulsionRiskResponse() {
-        List<RecordResponse> expulsionRisks = createRecordResponses();
-        expulsionRisks = sortRecordResponses(expulsionRisks);
-        return new ExpulsionRiskResponse(expulsionRisks);
+        List<CrewResponse> crewResponses = createCrewResponses();
+        crewResponses = sortCrewResponses(crewResponses);
+        return new ExpulsionRiskResponse(crewResponses);
     }
 
-    private List<RecordResponse> createRecordResponses() {
+    private List<CrewResponse> createCrewResponses() {
         return crews.stream()
                 .map(Crew::createResponse)
                 .toList();
     }
 
-    private List<RecordResponse> sortRecordResponses(List<RecordResponse> responses) {
+    private List<CrewResponse> sortCrewResponses(List<CrewResponse> responses) {
         return responses.stream()
-                .sorted(Comparator.comparingInt((RecordResponse r) -> r.attendanceResult().absence() + r.attendanceResult().perception() / 3)
-                        .thenComparingInt((RecordResponse r) -> r.attendanceResult().perception() % 3)
+                .sorted(Comparator.comparingInt((CrewResponse r) -> r.attendanceResult().absence() + r.attendanceResult().perception() / PERCEPTION_TO_ABSENCE_RATIO)
+                        .thenComparingInt((CrewResponse r) -> r.attendanceResult().perception() % PERCEPTION_TO_ABSENCE_RATIO)
                         .reversed()
-                        .thenComparing(RecordResponse::nickname))
+                        .thenComparing(CrewResponse::nickname))
                 .toList();
     }
 

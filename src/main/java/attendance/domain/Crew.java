@@ -6,7 +6,7 @@ import attendance.domain.attendance.AttendanceResults;
 import attendance.domain.attendance.Attendance;
 import attendance.domain.dto.AttendanceResponse;
 import attendance.domain.dto.ModifiedResponse;
-import attendance.domain.dto.RecordResponse;
+import attendance.domain.dto.CrewResponse;
 import attendance.domain.dto.RegisteredResponse;
 import attendance.domain.time.Holiday;
 import camp.nextstep.edu.missionutils.DateTimes;
@@ -50,8 +50,8 @@ public class Crew {
         );
     }
 
-    public RecordResponse createResponse() {
-        return new RecordResponse(
+    public CrewResponse createResponse() {
+        return new CrewResponse(
                 nickname,
                 getAttendanceResponses(),
                 result.createResponse()

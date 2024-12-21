@@ -17,7 +17,7 @@ import attendance.domain.dto.AttendanceResponse;
 import attendance.domain.dto.AttendanceResultResponse;
 import attendance.domain.dto.ExpulsionRiskResponse;
 import attendance.domain.dto.ModifiedResponse;
-import attendance.domain.dto.RecordResponse;
+import attendance.domain.dto.CrewResponse;
 import attendance.domain.dto.RegisteredResponse;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
@@ -51,7 +51,7 @@ public class OutputView {
         ));
     }
 
-    public void printAttendanceRecord(RecordResponse response) {
+    public void printAttendanceRecord(CrewResponse response) {
         System.out.print(NEW_LINE.get());
         System.out.println(OUTPUT_ATTENDANCE_RECORD_HEADER.get(response.nickname()));
 
@@ -64,7 +64,7 @@ public class OutputView {
         response.expulsionRisks().forEach(this::printExpulsionRisk);
     }
 
-    private void printExpulsionRisk(RecordResponse response) {
+    private void printExpulsionRisk(CrewResponse response) {
         AttendanceResultResponse attendanceResult = response.attendanceResult();
         System.out.println(OUTPUT_EXPULSION_RISK.get(
                 response.nickname(),
