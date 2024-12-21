@@ -57,7 +57,7 @@ public class AttendanceService {
     }
 
     private Crew getCrew(final Crews crews) {
-        String nickname = inputView.readCrewNickname();
+        String nickname = inputView.readNickname();
         return crews.getCrewByNickname(nickname);
     }
 
@@ -69,12 +69,12 @@ public class AttendanceService {
     }
 
     private Crew getCrewForModify(final Crews crews) {
-        String nickname = inputView.readModifyCrewNickname();
+        String nickname = inputView.readNicknameForModification();
         return crews.getCrewByNickname(nickname);
     }
 
     private LocalDate getDateForModify() {
-        int modifyDay = inputView.readModifyDay();
+        int modifyDay = inputView.readDayForModification();
         validateDayOfMonth(modifyDay);
 
         LocalDate date = DateTimes.now().toLocalDate().withDayOfMonth(modifyDay);
@@ -83,7 +83,7 @@ public class AttendanceService {
     }
 
     private LocalDateTime getDateTimeForModify(final LocalDate date) {
-        String time = inputView.readModifyTime();
+        String time = inputView.readTimeForModification();
         return parseDateTime(date, time);
     }
 
@@ -93,7 +93,7 @@ public class AttendanceService {
     }
 
     private LocalDateTime getDateTimeForRegister() {
-        String input = inputView.readRegisterTime();
+        String input = inputView.readSchoolStartTime();
         return parseDateTime(DateTimes.now().toLocalDate(), input);
     }
 }
