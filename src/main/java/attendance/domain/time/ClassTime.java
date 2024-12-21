@@ -1,4 +1,4 @@
-package attendance.domain;
+package attendance.domain.time;
 
 import static attendance.global.constant.ErrorMessage.AFTER_CLASS_TIME;
 

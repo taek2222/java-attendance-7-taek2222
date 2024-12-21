@@ -1,19 +1,19 @@
-package attendance.domain;
+package attendance.domain.attendance;
 
-import static attendance.domain.AttendanceStatus.ABSENCE;
-import static attendance.domain.AttendanceStatus.ATTENDANCE;
-import static attendance.domain.AttendanceStatus.PERCEPTION;
+import static attendance.domain.attendance.AttendanceStatus.ABSENCE;
+import static attendance.domain.attendance.AttendanceStatus.ATTENDANCE;
+import static attendance.domain.attendance.AttendanceStatus.PERCEPTION;
 
 import attendance.domain.dto.AttendanceResultResponse;
 import java.util.List;
 
-public class Result {
+public class AttendanceResults {
 
     private final int attendance;
     private final int perception;
     private final int absence;
 
-    public Result(List<Attendance> attendances) {
+    public AttendanceResults(List<Attendance> attendances) {
         this.attendance = countByStatus(attendances, ATTENDANCE);
         this.perception = countByStatus(attendances, PERCEPTION);
         this.absence = countByStatus(attendances, ABSENCE);

@@ -1,5 +1,6 @@
-package attendance.domain;
+package attendance.domain.attendance;
 
+import attendance.domain.time.ClassTime;
 import java.time.LocalDateTime;
 
 public enum AttendanceStatus {

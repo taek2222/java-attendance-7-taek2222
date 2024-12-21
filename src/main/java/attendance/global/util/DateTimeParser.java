@@ -3,7 +3,7 @@ package attendance.global.util;
 import static attendance.global.constant.ErrorMessage.CAMPUS_OPERATING_TIME;
 import static attendance.global.constant.ErrorMessage.INVALID_TIME_INPUT;
 
-import attendance.domain.CampusTime;
+import attendance.domain.time.CampusTime;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

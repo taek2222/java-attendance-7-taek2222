@@ -6,7 +6,7 @@ import static attendance.global.constant.ErrorMessage.NOT_SCHOOL_DAY;
 import static java.time.format.TextStyle.FULL;
 import static java.util.Locale.KOREA;
 
-import attendance.domain.Holiday;
+import attendance.domain.time.Holiday;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.DateTimeException;
 import java.time.LocalDate;

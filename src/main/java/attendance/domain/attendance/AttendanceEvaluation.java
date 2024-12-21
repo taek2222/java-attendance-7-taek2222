@@ -1,4 +1,4 @@
-package attendance.domain;
+package attendance.domain.attendance;
 
 public enum AttendanceEvaluation {
     SINCERITY("성실", 0),

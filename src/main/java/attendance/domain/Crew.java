@@ -2,10 +2,13 @@ package attendance.domain;
 
 import static attendance.global.constant.ErrorMessage.ALREADY_ATTENDANCE;
 
+import attendance.domain.attendance.AttendanceResults;
+import attendance.domain.attendance.Attendance;
 import attendance.domain.dto.AttendanceResponse;
 import attendance.domain.dto.ModifiedResponse;
 import attendance.domain.dto.RecordResponse;
 import attendance.domain.dto.RegisteredResponse;
+import attendance.domain.time.Holiday;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,13 +21,13 @@ public class Crew {
 
     private final String nickname;
     private final List<Attendance> attendances;
-    private Result result;
+    private AttendanceResults result;
 
     public Crew(final String nickname) {
         this.nickname = nickname;
         this.attendances = new ArrayList<>();
         generateDefaultAttendances();
-        this.result = new Result(attendances);
+        this.result = new AttendanceResults(attendances);
     }
 
     public RegisteredResponse registerAttendance(LocalDateTime dateTime) {
@@ -69,7 +72,7 @@ public class Crew {
     }
 
     private void updateResult() {
-        this.result = new Result(attendances.subList(0, attendances.size() - 1));
+        this.result = new AttendanceResults(attendances.subList(0, attendances.size() - 1));
     }
 
     private Attendance findAttendanceByDate(final LocalDate date) {

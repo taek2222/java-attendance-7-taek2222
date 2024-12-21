@@ -1,6 +1,6 @@
-package attendance.domain;
+package attendance.domain.attendance;
 
-import static attendance.domain.AttendanceStatus.ABSENCE;
+import static attendance.domain.attendance.AttendanceStatus.ABSENCE;
 
 import attendance.domain.dto.AttendanceResponse;
 import java.time.LocalDate;
