@@ -1,46 +1,49 @@
 package attendance.view;
 
+import static attendance.global.constant.MessageConstant.INPUT_DAY_FOR_MODIFICATION;
 import static attendance.global.constant.MessageConstant.INPUT_FUNCTION_SELECTION;
+import static attendance.global.constant.MessageConstant.INPUT_NICKNAME;
+import static attendance.global.constant.MessageConstant.INPUT_NICKNAME_FOR_MODIFICATION;
+import static attendance.global.constant.MessageConstant.INPUT_SCHOOL_START_TIME;
+import static attendance.global.constant.MessageConstant.INPUT_TIME_FOR_MODIFICATION;
 import static attendance.view.InputValidator.validateFunctionSelection;
 import static attendance.view.InputValidator.validateIsNumeric;
 
+import attendance.global.constant.MessageConstant;
 import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
 
     public String readTimeForModification() {
-        System.out.println("언제로 변경하겠습니까?");
-        return Console.readLine();
+        return printMessageAndReadInput(INPUT_TIME_FOR_MODIFICATION);
     }
 
     public int readDayForModification() {
-        System.out.println("수정하려는 날짜(일)를 입력해 주세요.");
-        String input = Console.readLine();
-
+        String input = printMessageAndReadInput(INPUT_DAY_FOR_MODIFICATION);
         validateIsNumeric(input);
         return Integer.parseInt(input);
     }
 
     public String readNicknameForModification() {
-        System.out.println("출석을 수정하려는 크루의 닉네임을 입력해 주세요.");
-        return Console.readLine();
+        return printMessageAndReadInput(INPUT_NICKNAME_FOR_MODIFICATION);
     }
 
     public String readNickname() {
-        System.out.println("닉네임을 입력해 주세요.");
-        return Console.readLine();
+        return printMessageAndReadInput(INPUT_NICKNAME);
     }
 
     public String readSchoolStartTime() {
-        System.out.println("등교 시간을 입력해 주세요.");
-        return Console.readLine();
+        return printMessageAndReadInput(INPUT_SCHOOL_START_TIME);
     }
 
     public String readFunctionSelection() {
-        System.out.print(INPUT_FUNCTION_SELECTION.get());
-
-        String input = Console.readLine();
+        String input = printMessageAndReadInput(INPUT_FUNCTION_SELECTION);
         validateFunctionSelection(input);
         return input;
+    }
+
+    private String printMessageAndReadInput(MessageConstant message) {
+        System.out.println(message.get());
+        return Console.readLine();
     }
 }
