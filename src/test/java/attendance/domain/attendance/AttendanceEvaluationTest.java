@@ -11,8 +11,8 @@ class AttendanceEvaluationTest {
 
     @ParameterizedTest(name = "횟수 - 지각: {0}, 결석: {1}, 예상 평가값: {2}")
     @CsvSource({
-            "0, 6, WEEDING",
-            "3, 5, WEEDING",
+            "0, 6, EXPULSION",
+            "3, 5, EXPULSION",
             "0, 5, INTERVIEW",
             "3, 4, INTERVIEW",
             "0, 3, INTERVIEW",
