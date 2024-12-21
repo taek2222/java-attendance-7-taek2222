@@ -2,8 +2,8 @@ package attendance.domain;
 
 import static attendance.global.constant.ErrorMessage.NOT_FOUND_NICKNAME;
 
-import attendance.domain.dto.ExpulsionRiskResponse;
 import attendance.domain.dto.CrewResponse;
+import attendance.domain.dto.ExpulsionRiskResponse;
 import java.util.Comparator;
 import java.util.List;
 

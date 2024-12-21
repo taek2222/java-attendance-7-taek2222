@@ -65,7 +65,7 @@ public class AttendanceController {
         if (function.equals(RECORD_COMMAND)) {
             attendanceService.processRecord(crews);
         }
-        
+
         if (function.equals(EXPULSION_RISK_CHECK_COMMAND)) {
             attendanceService.processExpulsionRiskCheck(crews);
         }

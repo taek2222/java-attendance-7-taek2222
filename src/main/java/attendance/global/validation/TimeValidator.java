@@ -18,7 +18,7 @@ public class TimeValidator {
     }
 
     public static void validateCampusOperateTime(final LocalTime time) {
-        if (!CampusTime.isCampusOperateTime(time)){
+        if (!CampusTime.isCampusOperateTime(time)) {
             throw new IllegalArgumentException(CAMPUS_OPERATING_TIME.get());
         }
     }
