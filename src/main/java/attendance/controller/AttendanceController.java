@@ -8,6 +8,8 @@ import attendance.view.OutputView;
 
 public class AttendanceController {
 
+    private static final String QUIT_COMMAND = "Q";
+    
     private final InputView inputView;
     private final OutputView outputView;
     private final InitService initService;
@@ -25,10 +27,13 @@ public class AttendanceController {
 
     public void run() {
         Crews crews = initService.initializeCrewsFromFile();
+        processAttendanceSystem(crews);
+    }
 
+    private void processAttendanceSystem(final Crews crews) {
         while (true) {
             String function = readFunctionSelection();
-            if (function.equals("Q")) {
+            if (isQuitCommand(function)) {
                 break;
             }
             attendanceService.processAttendance(function, crews);
@@ -38,5 +43,9 @@ public class AttendanceController {
     private String readFunctionSelection() {
         outputView.printDateAndFunctionSelection();
         return inputView.readFunctionSelection();
+    }
+
+    private boolean isQuitCommand(final String function) {
+        return function.equals(QUIT_COMMAND);
     }
 }
