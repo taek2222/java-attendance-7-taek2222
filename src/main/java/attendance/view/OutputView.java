@@ -60,7 +60,7 @@ public class OutputView {
     }
 
     public void printExpulsionRisks(ExpulsionRiskResponse response) {
-        System.out.println(OUTPUT_EXPULSION_RISK_HEADER);
+        System.out.println(OUTPUT_EXPULSION_RISK_HEADER.get());
         response.expulsionRisks().forEach(this::printExpulsionRisk);
     }
 

@@ -40,6 +40,10 @@ public class AttendanceService {
         outputView.printAttendanceRecord(crew.createResponse());
     }
 
+    public void processExpulsionRiskCheck(final Crews crews) {
+        outputView.printExpulsionRisks(crews.createExpulsionRiskResponse());
+    }
+
     private Crew getCrew(final Crews crews, final boolean isModification) {
         String nickname = readNickname(isModification);
         return crews.findCrewByNickname(nickname);

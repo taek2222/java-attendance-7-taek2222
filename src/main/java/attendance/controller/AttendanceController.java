@@ -12,7 +12,8 @@ public class AttendanceController {
     private static final String MODIFY_COMMAND = "2";
     private static final String RECORD_COMMAND = "3";
     private static final String QUIT_COMMAND = "Q";
-    
+    private static final String EXPULSION_RISK_CHECK_COMMAND = "4";
+
     private final InputView inputView;
     private final OutputView outputView;
     private final InitService initService;
@@ -63,6 +64,10 @@ public class AttendanceController {
 
         if (function.equals(RECORD_COMMAND)) {
             attendanceService.processRecord(crews);
+        }
+        
+        if (function.equals(EXPULSION_RISK_CHECK_COMMAND)) {
+            attendanceService.processExpulsionRiskCheck(crews);
         }
     }
 }
