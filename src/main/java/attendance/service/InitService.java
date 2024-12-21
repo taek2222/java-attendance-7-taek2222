@@ -5,19 +5,20 @@ import attendance.domain.Crews;
 import attendance.global.util.FileUtil;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InitService {
 
+    private static final String ATTENDANCES_FILE_NAME = "attendances.csv";
+    private static final String NAME_DATETIME_DELIMITER = ",";
     private static final String PATTERN = "yyyy-MM-dd HH:mm";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(PATTERN);
-    private static final String NAME_DATETIME_DELIMITER = ",";
-    private static final String ATTENDANCES_FILE_NAME = "attendances.csv";
 
     public Crews initializeCrewsFromFile() {
         List<String> attendanceLines = FileUtil.readFile(ATTENDANCES_FILE_NAME);
-        Crews crews = new Crews();
 
+        List<Crew> crews = new ArrayList<>();
         for (String line : attendanceLines) {
             String[] fields = line.split(NAME_DATETIME_DELIMITER);
 
@@ -26,20 +27,27 @@ public class InitService {
 
             addCrewIfNewCrew(crews, nickname);
 
-            Crew crew = crews.getCrewByNickname(nickname);
+            Crew crew = findByNickname(crews, nickname);
             crew.updateAttendance(dateTime);
         }
-        return crews;
+        return new Crews(crews);
     }
 
-    private void addCrewIfNewCrew(final Crews crews, final String name) {
-        if (isNewCrew(crews, name)) {
+    private Crew findByNickname(List<Crew> crews, String nickname) {
+        return crews.stream()
+                .filter(crew -> crew.isSameNickname(nickname))
+                .findFirst()
+                .orElseThrow();
+    }
+
+    private void addCrewIfNewCrew(final List<Crew> crews, final String name) {
+        if (!isNewCrew(crews, name)) {
             Crew crew = new Crew(name);
-            crews.addCrew(crew);
+            crews.add(crew);
         }
     }
 
-    private boolean isNewCrew(final Crews crews, final String name) {
-        return !crews.existsCrewByNickname(name);
+    private boolean isNewCrew(List<Crew> crews, final String name) {
+        return crews.contains(new Crew(name));
     }
 }

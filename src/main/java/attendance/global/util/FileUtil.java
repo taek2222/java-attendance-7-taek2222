@@ -13,7 +13,7 @@ public class FileUtil {
     public static List<String> readFile(String fileName) {
         BufferedReader fileReader = openFileReader(fileName);
         List<String> parsedLines = parseLines(fileReader);
-        return parsedLines.subList(1, parsedLines.size());
+        return parsedLines.subList(1, parsedLines.size()); // 첫번째 줄 제외
     }
 
     private static BufferedReader openFileReader(String fileName) {

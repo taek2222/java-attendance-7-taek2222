@@ -2,29 +2,20 @@ package attendance.domain;
 
 import static attendance.global.constant.ErrorMessage.NOT_FOUND_NICKNAME;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Crews {
 
     private final List<Crew> crews;
 
-    public Crews() {
-        this.crews = new ArrayList<>();
-    }
-
-    public void addCrew(Crew crew) {
-        crews.add(crew);
+    public Crews(final List<Crew> crews) {
+        this.crews = crews;
     }
 
     public Crew getCrewByNickname(final String nickname) {
         Crew crew = findCrewByNickname(nickname);
         validateCrew(crew);
         return crew;
-    }
-
-    public boolean existsCrewByNickname(String nickname) {
-        return findCrewByNickname(nickname) != null;
     }
 
     private Crew findCrewByNickname(String nickname) {

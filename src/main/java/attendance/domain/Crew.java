@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Crew {
 
@@ -104,5 +105,19 @@ public class Crew {
         if (!attendance.isDefault()) {
             throw new IllegalArgumentException(ALREADY_ATTENDANCE.get());
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Crew that = (Crew) obj;
+
+        return Objects.equals(this.nickname, that.nickname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname);
     }
 }
