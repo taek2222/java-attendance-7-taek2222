@@ -2,6 +2,7 @@ package attendance.domain.attendance;
 
 import attendance.domain.time.ClassTime;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 public enum AttendanceStatus {
     ATTENDANCE("출석", 5),
@@ -18,15 +19,11 @@ public enum AttendanceStatus {
     }
 
     public static AttendanceStatus evaluateAttendanceStatus(LocalDateTime dateTime) {
-        int timeBetween = ClassTime.calculateTimeBetween(dateTime);
-        if (ATTENDANCE.threshold >= timeBetween) {
-            return ATTENDANCE;
-        }
-
-        if (PERCEPTION.threshold >= timeBetween) {
-            return PERCEPTION;
-        }
-        return ABSENCE;
+        int delayMinutes = ClassTime.calculateDelayMinutes(dateTime);
+        return Arrays.stream(values())
+                .filter(status -> delayMinutes <= status.threshold) // 시간 차이의 일치하는지 조건문
+                .findFirst()
+                .orElse(ABSENCE);
     }
 
     public String getName() {
