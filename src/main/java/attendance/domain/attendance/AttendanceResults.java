@@ -24,8 +24,12 @@ public class AttendanceResults {
                 attendance,
                 perception,
                 absence,
-                AttendanceEvaluation.evaluateAttendance(perception, absence).getName()
+                evaluateAttendance()
         );
+    }
+
+    private String evaluateAttendance() {
+        return AttendanceEvaluation.evaluateAttendance(perception, absence).getName();
     }
 
     private int countByStatus(List<Attendance> attendances, AttendanceStatus status) {
