@@ -1,10 +1,9 @@
-package attendance.domain;
+package attendance.domain.time;
 
 import static attendance.global.constant.ErrorMessage.AFTER_CLASS_TIME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import attendance.domain.time.ClassTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
