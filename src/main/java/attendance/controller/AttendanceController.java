@@ -8,6 +8,9 @@ import attendance.view.OutputView;
 
 public class AttendanceController {
 
+    private static final String REGISTER_COMMAND = "1";
+    private static final String MODIFY_COMMAND = "2";
+    private static final String RECORD_COMMAND = "3";
     private static final String QUIT_COMMAND = "Q";
     
     private final InputView inputView;
@@ -36,7 +39,7 @@ public class AttendanceController {
             if (isQuitCommand(function)) {
                 break;
             }
-            attendanceService.processAttendance(function, crews);
+            processAttendance(function, crews);
         }
     }
 
@@ -47,5 +50,19 @@ public class AttendanceController {
 
     private boolean isQuitCommand(final String function) {
         return function.equals(QUIT_COMMAND);
+    }
+
+    private void processAttendance(String function, Crews crews) {
+        if (function.equals(REGISTER_COMMAND)) {
+            attendanceService.processRegister(crews);
+        }
+
+        if (function.equals(MODIFY_COMMAND)) {
+            attendanceService.processModify(crews);
+        }
+
+        if (function.equals(RECORD_COMMAND)) {
+            attendanceService.processRecord(crews);
+        }
     }
 }
