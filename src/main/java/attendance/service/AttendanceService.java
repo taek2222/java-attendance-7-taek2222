@@ -42,7 +42,7 @@ public class AttendanceService {
 
     private Crew getCrew(final Crews crews, final boolean isModification) {
         String nickname = readNickname(isModification);
-        return crews.getCrewByNickname(nickname);
+        return crews.findCrewByNickname(nickname);
     }
 
     private String readNickname(final boolean isModification) {
