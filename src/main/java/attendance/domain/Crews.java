@@ -24,6 +24,13 @@ public class Crews {
         return new ExpulsionRiskResponse(crewResponses);
     }
 
+    public Crew findCrewByNickname(final String nickname) {
+        return crews.stream()
+                .filter(crew -> crew.isSameNickname(nickname))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_NICKNAME.get()));
+    }
+
     private List<CrewResponse> createCrewResponses() {
         return crews.stream()
                 .map(Crew::createResponse)
@@ -38,12 +45,5 @@ public class Crews {
                         .reversed()
                         .thenComparing(CrewResponse::nickname))
                 .toList();
-    }
-
-    public Crew findCrewByNickname(final String nickname) {
-        return crews.stream()
-                .filter(crew -> crew.isSameNickname(nickname))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_NICKNAME.get()));
     }
 }

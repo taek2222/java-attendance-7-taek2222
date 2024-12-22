@@ -50,6 +50,10 @@ public class Crew {
         );
     }
 
+    public boolean isSameNickname(final String nickname) {
+        return this.nickname.equals(nickname);
+    }
+
     public CrewResponse createResponse() {
         return new CrewResponse(
                 nickname,
@@ -70,10 +74,6 @@ public class Crew {
     @Override
     public int hashCode() {
         return Objects.hash(nickname);
-    }
-
-    public boolean isSameNickname(final String nickname) {
-        return this.nickname.equals(nickname);
     }
 
     private Attendance findAttendanceByDate(final LocalDate date) {
