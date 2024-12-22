@@ -1,15 +1,15 @@
 package attendance.domain.attendance;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class AttendanceTest {
 
-    @ParameterizedTest(name = "시간: {0}, 예상 결과: {1}")
+    @ParameterizedTest(name = "날짜/시간: {0}, 예상 결과: {1}")
     @CsvSource({
             "2024-12-04T00:00, true",
             "2024-12-04T15:00, false"
@@ -22,39 +22,47 @@ class AttendanceTest {
         boolean result = attendance.isInitialTime();
 
         // then
-        Assertions.assertThat(result)
+        assertThat(result)
                 .isEqualTo(expected);
     }
 
-    @Test
-    void 동일한_날짜인_경우_TRUE를_반환한다() {
+    @ParameterizedTest(name = "날짜/시간: {0}, 날짜: {1}, 예상 결과: {2}")
+    @CsvSource({
+            "2024-12-04T15:00, 2024-12-04, true",
+            "2024-12-04T15:00, 2024-12-06, false"
+    })
+    void 동일_날짜_여부에_따라_참_거짓을_반환한다(LocalDateTime dateTime, LocalDate date, boolean expected) {
         // given
-        LocalDateTime dateTime = LocalDateTime.of(2024, 12, 4, 15, 0);
         Attendance attendance = new Attendance(dateTime);
-
-        LocalDate date = LocalDate.of(2024, 12, 4);
 
         // when
         boolean result = attendance.isSameDate(date);
 
         // then
-        Assertions.assertThat(result)
-                .isTrue();
+        assertThat(result)
+                .isEqualTo(expected);
     }
 
-    @Test
-    void 동일한_출석_상황인_경우_TRUE를_반환한다() {
-        // given
-        LocalDateTime dateTime = LocalDateTime.of(2024, 12, 4, 15, 0);
-        Attendance attendance = new Attendance(dateTime);
+    @ParameterizedTest(name = "날짜/시간: {0}, 출결 상황: {1}, 예상 결과: {2}")
+    @CsvSource({
+            "2024-12-04T10:00, ABSENCE, false",
+            "2024-12-04T10:00, ATTENDANCE, true",
+            "2024-12-04T10:10, PERCEPTION, true",
+            "2024-12-04T10:10, ATTENDANCE, false"
 
-        AttendanceStatus status = AttendanceStatus.ABSENCE;
+    })
+    void 동일_출석_상황에_따라_참_거짓을_반환한다(LocalDateTime dateTime, String status, boolean expected) {
+        // given
+        Attendance attendance = new Attendance(LocalDateTime.of(2024, 12, 2, 0, 0));
+        attendance.updateDateTime(dateTime);
+
+        AttendanceStatus attendanceStatus = AttendanceStatus.valueOf(status);
 
         // when
-        boolean result = attendance.isSameStatus(status);
+        boolean result = attendance.isSameStatus(attendanceStatus);
 
         // then
-        Assertions.assertThat(result)
-                .isTrue();
+        assertThat(result)
+                .isEqualTo(expected);
     }
 }
