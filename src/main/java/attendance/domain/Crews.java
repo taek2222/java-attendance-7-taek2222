@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import static attendance.domain.attendance.AttendanceEvaluation.SINCERITY;
 import static attendance.global.constant.ErrorMessage.NOT_FOUND_NICKNAME;
 
 import attendance.domain.dto.CrewResponse;
@@ -34,6 +35,7 @@ public class Crews {
     private List<CrewResponse> createCrewResponses() {
         return crews.stream()
                 .map(Crew::createResponse)
+                .filter(response -> !response.attendanceResult().evaluation().equals(SINCERITY.getName()))
                 .toList();
     }
 
