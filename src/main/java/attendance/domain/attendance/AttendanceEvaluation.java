@@ -20,7 +20,7 @@ public enum AttendanceEvaluation {
     }
 
     // 출결 상태 판정
-    public static AttendanceEvaluation evaluateAttendance(int perception, int absence) {
+    public static AttendanceEvaluation evaluateAttendance(final int perception, final int absence) {
         int totalAbsence = absence + (perception / PERCEPTION_TO_ABSENCE_RATIO);
         return Arrays.stream(values())
                 .sorted((e1, e2) -> Integer.compare(e2.threshold, e1.threshold)) // 제적 -> .. -> 성실 역순 정렬

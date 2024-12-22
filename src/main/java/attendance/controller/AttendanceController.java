@@ -53,7 +53,7 @@ public class AttendanceController {
         return function.equals(QUIT_COMMAND);
     }
 
-    private void processAttendance(String function, Crews crews) {
+    private void processAttendance(final String function, final Crews crews) {
         if (function.equals(REGISTER_COMMAND)) {
             attendanceService.processRegister(crews);
         }

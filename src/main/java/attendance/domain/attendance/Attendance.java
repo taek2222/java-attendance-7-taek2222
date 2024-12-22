@@ -20,7 +20,7 @@ public class Attendance {
         this.status = DEFAULT_STATUS;
     }
 
-    public Attendance updateDateTime(LocalDateTime dateTime) {
+    public Attendance updateDateTime(final LocalDateTime dateTime) {
         this.dateTime = dateTime;
         this.status = evaluateAttendanceStatus(dateTime);
         return this; // 업데이트 이후 객체 반환
@@ -31,11 +31,11 @@ public class Attendance {
         return dateTime.toLocalTime().equals(LocalTime.MIN);
     }
 
-    public boolean isSameDate(LocalDate date) {
+    public boolean isSameDate(final LocalDate date) {
         return dateTime.toLocalDate().isEqual(date);
     }
 
-    public boolean isSameStatus(AttendanceStatus status) {
+    public boolean isSameStatus(final AttendanceStatus status) {
         return this.status.equals(status);
     }
 

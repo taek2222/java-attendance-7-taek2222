@@ -18,7 +18,7 @@ public enum AttendanceStatus {
         this.threshold = threshold;
     }
 
-    public static AttendanceStatus evaluateAttendanceStatus(LocalDateTime dateTime) {
+    public static AttendanceStatus evaluateAttendanceStatus(final LocalDateTime dateTime) {
         int delayMinutes = ClassTime.calculateDelayMinutes(dateTime);
         return Arrays.stream(values())
                 .filter(status -> delayMinutes <= status.threshold) // 시간 차이의 일치하는지 조건문

@@ -10,13 +10,13 @@ public class FileUtil {
 
     private static final String DIRECTORY_PATH = "src/main/resources/";
 
-    public static List<String> readFile(String fileName) {
+    public static List<String> readFile(final String fileName) {
         BufferedReader fileReader = openFileReader(fileName);
         List<String> parsedLines = parseLines(fileReader);
         return parsedLines.subList(1, parsedLines.size()); // 첫번째 줄 제외
     }
 
-    private static BufferedReader openFileReader(String fileName) {
+    private static BufferedReader openFileReader(final String fileName) {
         try {
             File file = new File(DIRECTORY_PATH + fileName);
             FileReader fileReader = new FileReader(file);
@@ -26,7 +26,7 @@ public class FileUtil {
         }
     }
 
-    private static List<String> parseLines(BufferedReader fileReader) {
+    private static List<String> parseLines(final BufferedReader fileReader) {
         return fileReader.lines()
                 .toList();
     }

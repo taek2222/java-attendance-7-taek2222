@@ -30,7 +30,7 @@ public class Crew {
         this.result = new AttendanceResults(attendances);
     }
 
-    public RegisteredResponse registerAttendance(LocalDateTime dateTime) {
+    public RegisteredResponse registerAttendance(final LocalDateTime dateTime) {
         Attendance attendance = findAttendanceByDate(dateTime.toLocalDate());
         validationAlreadyAttendance(attendance);
         updateDateTime(dateTime, attendance);
@@ -39,7 +39,7 @@ public class Crew {
         );
     }
 
-    public ModifiedResponse updateAttendance(LocalDateTime dateTime) {
+    public ModifiedResponse updateAttendance(final LocalDateTime dateTime) {
         Attendance oldAttendance = findAttendanceByDate(dateTime.toLocalDate());
         AttendanceResponse oldAttendanceResponse = oldAttendance.createResponse();
 
@@ -72,7 +72,7 @@ public class Crew {
         return Objects.hash(nickname);
     }
 
-    public boolean isSameNickname(String nickname) {
+    public boolean isSameNickname(final String nickname) {
         return this.nickname.equals(nickname);
     }
 

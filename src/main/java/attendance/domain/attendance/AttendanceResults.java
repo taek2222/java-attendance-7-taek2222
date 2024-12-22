@@ -13,7 +13,7 @@ public class AttendanceResults {
     private final int perception;
     private final int absence;
 
-    public AttendanceResults(List<Attendance> attendances) {
+    public AttendanceResults(final List<Attendance> attendances) {
         List<Attendance> subbed = attendances.subList(0, attendances.size() - 1); // 오늘 날짜 제외
         this.attendance = countByStatus(subbed, ATTENDANCE);
         this.perception = countByStatus(subbed, PERCEPTION);
@@ -33,7 +33,7 @@ public class AttendanceResults {
         return AttendanceEvaluation.evaluateAttendance(perception, absence).getName();
     }
 
-    private int countByStatus(List<Attendance> attendances, AttendanceStatus status) {
+    private int countByStatus(final List<Attendance> attendances, final AttendanceStatus status) {
         return (int) attendances.stream()
                 .filter(attendance -> attendance.isSameStatus(status))
                 .count();

@@ -28,12 +28,12 @@ public class InitService {
         return new Crews(crews);
     }
 
-    private String[] parseLine(String line) {
+    private String[] parseLine(final String line) {
         return line.split(NAME_DATETIME_DELIMITER);
     }
 
     // CSV 한 줄씩 처리 과정
-    private void processAttendanceLine(List<Crew> crews, String[] fields) {
+    private void processAttendanceLine(final List<Crew> crews, final String[] fields) {
         String nickname = fields[0];
         addCrewIfNotExists(crews, nickname);
         Crew crew = findCrewByNickname(crews, nickname);
@@ -54,7 +54,7 @@ public class InitService {
         return crews.contains(new Crew(name));
     }
 
-    private Crew findCrewByNickname(List<Crew> crews, String nickname) {
+    private Crew findCrewByNickname(final List<Crew> crews, final String nickname) {
         return crews.stream()
                 .filter(crew -> crew.isSameNickname(nickname))
                 .findFirst()

@@ -13,7 +13,7 @@ public enum CampusTime {
         this.time = time;
     }
 
-    public static boolean isCampusOperateTime(LocalTime time) {
+    public static boolean isCampusOperateTime(final LocalTime time) {
         return !OPEN.time.isAfter(time) && !CLOSE.time.isBefore(time);
     }
 }

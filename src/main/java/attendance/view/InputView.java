@@ -42,7 +42,7 @@ public class InputView {
         return printMessageAndReadInput(INPUT_TIME_FOR_MODIFICATION);
     }
 
-    private String printMessageAndReadInput(MessageConstant message) {
+    private String printMessageAndReadInput(final MessageConstant message) {
         System.out.println(message.get());
         return Console.readLine();
     }

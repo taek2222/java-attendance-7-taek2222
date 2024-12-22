@@ -8,13 +8,13 @@ public class InputValidator {
 
     private static final List<String> FUNCTION = List.of("1", "2", "3", "4", "Q");
 
-    public static void validateFunctionSelection(String input) {
+    public static void validateFunctionSelection(final String input) {
         if (!FUNCTION.contains(input)) {
             throw new IllegalArgumentException(INVALID_INPUT.get());
         }
     }
 
-    public static void validateIsNumeric(String input) {
+    public static void validateIsNumeric(final String input) {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {

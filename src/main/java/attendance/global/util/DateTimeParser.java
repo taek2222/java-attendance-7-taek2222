@@ -14,7 +14,7 @@ public class DateTimeParser {
         return LocalDateTime.of(date, time);
     }
 
-    public static LocalTime parseTime(String input) {
+    public static LocalTime parseTime(final String input) {
         validateTimeParse(input);
         LocalTime time = LocalTime.parse(input);
         validateCampusOperateTime(time);

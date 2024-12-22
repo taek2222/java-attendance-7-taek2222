@@ -31,7 +31,7 @@ public class Crews {
     }
 
     // 제적 위험자 정렬
-    private List<CrewResponse> sortCrewResponses(List<CrewResponse> responses) {
+    private List<CrewResponse> sortCrewResponses(final List<CrewResponse> responses) {
         return responses.stream()
                 .sorted(Comparator.comparingInt((CrewResponse r) -> r.attendanceResult().absence() + r.attendanceResult().perception() / PERCEPTION_TO_ABSENCE_RATIO)
                         .thenComparingInt((CrewResponse r) -> r.attendanceResult().perception() % PERCEPTION_TO_ABSENCE_RATIO)

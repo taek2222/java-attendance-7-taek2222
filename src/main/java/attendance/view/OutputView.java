@@ -35,12 +35,12 @@ public class OutputView {
         ));
     }
 
-    public void printRegisteredResult(RegisteredResponse response) {
+    public void printRegisteredResult(final RegisteredResponse response) {
         System.out.print(NEW_LINE.get());
         printAttendanceDetail(response.register());
     }
 
-    public void printModifiedResult(ModifiedResponse response) {
+    public void printModifiedResult(final ModifiedResponse response) {
         System.out.print(NEW_LINE.get());
         printAttendanceDetail(response.before());
 
@@ -51,7 +51,7 @@ public class OutputView {
         ));
     }
 
-    public void printAttendanceRecord(CrewResponse response) {
+    public void printAttendanceRecord(final CrewResponse response) {
         System.out.print(NEW_LINE.get());
         System.out.println(OUTPUT_ATTENDANCE_RECORD_HEADER.get(response.nickname()));
 
@@ -59,7 +59,7 @@ public class OutputView {
         printAttendanceResult(response.attendanceResult());
     }
 
-    public void printExpulsionRisks(ExpulsionRiskResponse response) {
+    public void printExpulsionRisks(final ExpulsionRiskResponse response) {
         System.out.println(OUTPUT_EXPULSION_RISK_HEADER.get());
         response.expulsionRisks().forEach(this::printExpulsionRisk);
     }
@@ -88,7 +88,7 @@ public class OutputView {
         });
     }
 
-    private void printAttendanceResult(AttendanceResultResponse response) {
+    private void printAttendanceResult(final AttendanceResultResponse response) {
         System.out.print(NEW_LINE.get());
         System.out.println(OUTPUT_ATTENDANCE_RESULT.get(
                 response.attendance(),
@@ -98,7 +98,7 @@ public class OutputView {
         System.out.println(OUTPUT_ATTENDANCE_EVALUATION.get(response.evaluation()));
     }
 
-    private void printExpulsionRisk(CrewResponse response) {
+    private void printExpulsionRisk(final CrewResponse response) {
         AttendanceResultResponse attendanceResult = response.attendanceResult();
         System.out.println(OUTPUT_EXPULSION_RISK.get(
                 response.nickname(),
